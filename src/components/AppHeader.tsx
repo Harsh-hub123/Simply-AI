@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 const links = [
@@ -10,9 +10,21 @@ const links = [
 
 export function AppHeader() {
   const [open, setOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
 
   useEffect(() => setOpen(false), [location.pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setOpen(false);
+      toggleRef.current?.focus();
+    };
+    document.addEventListener('keydown', closeOnEscape);
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, [open]);
 
   return (
     <header className="site-header">
@@ -22,13 +34,14 @@ export function AppHeader() {
         </NavLink>
 
         <button
+          ref={toggleRef}
           className="menu-toggle"
           type="button"
           aria-expanded={open}
           aria-controls="primary-navigation"
           onClick={() => setOpen((value) => !value)}
         >
-          <span className="sr-only">Toggle navigation</span>
+          <span className="sr-only">{open ? 'Close navigation' : 'Open navigation'}</span>
           <i />
           <i />
         </button>

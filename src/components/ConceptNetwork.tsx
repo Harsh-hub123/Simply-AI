@@ -1,16 +1,17 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-type MajorId = 'representation' | 'model' | 'loss' | 'gradient';
+type MajorId = 'data-representation' | 'model' | 'loss' | 'gradient';
 
 const majorNodes: Array<{ id: MajorId; title: string; copy: string; icon: React.ReactNode }> = [
-  { id: 'representation', title: 'Representation', copy: 'How the real world becomes numbers', icon: <><path d="m4 8 8-4 8 4-8 4-8-4Z"/><path d="m4 8 8 4 8-4v8l-8 4-8-4V8Z"/><path d="M12 12v8"/></> },
+  { id: 'data-representation', title: 'Data Representation', copy: 'How the real world becomes numbers', icon: <><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7"/></> },
   { id: 'model', title: 'Model', copy: 'What learns from data', icon: <><circle cx="6" cy="6" r="1.5"/><circle cx="18" cy="6" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="6" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/><path d="m7.3 6.8 3.4 4M16.7 6.8l-3.4 4m-2.6 2.4-3.4 4m6-4 3.4 4"/></> },
   { id: 'loss', title: 'Loss', copy: 'How it knows it is wrong', icon: <><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></> },
   { id: 'gradient', title: 'Gradient', copy: 'How it finds what to change', icon: <path d="M3 17c4 0 4-10 8-10s4 10 10 10"/> },
 ];
 
 const connections: Array<{ id: MajorId; d: string; accent?: boolean }> = [
-  { id: 'representation', d: 'M360 246 C360 205 360 176 360 140' },
+  { id: 'data-representation', d: 'M360 246 C360 205 360 176 360 140' },
   { id: 'model', d: 'M294 258 C250 244 224 228 187 218' },
   { id: 'loss', d: 'M426 258 C470 244 500 228 535 220', accent: true },
   { id: 'gradient', d: 'M360 316 C360 350 360 375 360 396' },
@@ -52,9 +53,9 @@ export function ConceptNetwork() {
       </div>
 
       {majorNodes.map((node) => (
-        <button
-          type="button"
+        <Link
           key={node.id}
+          to={`/roadmap?concept=${node.id}`}
           className={`concept-node node-${node.id} ${active === node.id ? 'is-active' : ''} ${active && active !== node.id ? 'is-muted' : ''}`}
           onMouseEnter={() => setActive(node.id)}
           onMouseLeave={() => setActive(null)}
@@ -69,7 +70,7 @@ export function ConceptNetwork() {
             <strong>{node.title}</strong>
             <small>{node.copy}</small>
           </span>
-        </button>
+        </Link>
       ))}
 
       <span className="minor-label minor-data">Data</span>

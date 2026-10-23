@@ -51,7 +51,7 @@ export function RoadmapPage() {
   }, [selected?.slug]);
 
   return (
-    <main className={`roadmap-page${selected ? ' has-selection' : ''}`}>
+    <main id="main-content" tabIndex={-1} className={`roadmap-page${selected ? ' has-selection' : ''}`}>
       <div className="roadmap-atmosphere" aria-hidden="true" />
       <div className="roadmap-layout">
         <div className="roadmap-map-pane">

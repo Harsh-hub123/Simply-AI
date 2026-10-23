@@ -3,21 +3,21 @@ import { LineIcon } from '../components/Icons';
 import { SectionLabel } from '../components/SectionLabel';
 
 const principles = [
-  { icon: 'intuition' as const, tone: 'amber', title: 'Intuition First', copy: 'We focus on deep intuition and mental models, not just theory or tool usage.' },
-  { icon: 'connected' as const, tone: 'cyan', title: 'Connected Understanding', copy: 'See how concepts build on each other, from mathematics to modern AI systems.' },
-  { icon: 'doing' as const, tone: 'amber', title: 'Learn by Doing', copy: 'Interactive visualizations and experiences help you actually understand, not just read.' },
+  { icon: 'intuition' as const, title: 'Intuition First', copy: 'Understand why a concept exists before memorizing terminology.' },
+  { icon: 'connected' as const, title: 'Connected Understanding', copy: 'See how ideas fit together across AI Engineering, from fundamentals to real-world systems.' },
+  { icon: 'doing' as const, title: 'Learn by Doing', copy: 'Reason, predict, compare and explain through examples, experiments and real engineering context.' },
 ];
 
-const promises = [
-  { icon: 'brain' as const, title: 'Build Real Intuition', copy: 'Go beyond surface-level understanding.' },
-  { icon: 'network' as const, title: 'See How Concepts Connect', copy: 'From fundamentals to real-world AI systems.' },
-  { icon: 'clarity' as const, title: 'Think Clearly About AI', copy: 'Develop a structured and engineering mindset.' },
-  { icon: 'engaging' as const, title: 'Learn in an Engaging Way', copy: 'Interactive, visual, and actually interesting.' },
+const learningSteps = [
+  { number: '01', icon: 'why' as const, title: 'Start with Why', copy: 'Understand why a concept exists and what problem it helps us solve.' },
+  { number: '02', icon: 'visual' as const, title: 'See It Visually', copy: 'Build mental models through clear diagrams, simple examples and intuitive explanations.' },
+  { number: '03', icon: 'brain' as const, title: 'Reason Through It', copy: 'Predict, compare, question and explain to strengthen understanding.' },
+  { number: '04', icon: 'network' as const, title: 'Connect It', copy: 'See how each idea fits into the larger AI system and what comes next.' },
 ];
 
 export function HomePage() {
   return (
-    <main>
+    <main id="main-content" tabIndex={-1}>
       <div className="home-backdrop" aria-hidden="true" />
       <div className="page-container">
         <HomeHero />
@@ -29,7 +29,7 @@ export function HomePage() {
           <div className="principle-grid">
             {principles.map((item) => (
               <article className="principle-item" key={item.title}>
-                <div className={`icon-medallion ${item.tone}`}><LineIcon name={item.icon} /></div>
+                <div className="icon-medallion"><LineIcon name={item.icon} /></div>
                 <div>
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
@@ -40,12 +40,13 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="info-band promises" aria-labelledby="promises-title">
+      <section className="info-band learning-method" aria-labelledby="learning-method-title">
         <div className="page-container">
-          <SectionLabel><span id="promises-title">What Simply AI promises</span></SectionLabel>
-          <div className="promise-grid">
-            {promises.map((item) => (
-              <article className="promise-item" key={item.title}>
+          <SectionLabel><span id="learning-method-title">How you&apos;ll learn</span></SectionLabel>
+          <div className="learning-grid">
+            {learningSteps.map((item) => (
+              <article className="learning-item" key={item.number}>
+                <span className="learning-number" aria-hidden="true">{item.number}</span>
                 <div className="icon-medallion small"><LineIcon name={item.icon} /></div>
                 <div>
                   <h3>{item.title}</h3>

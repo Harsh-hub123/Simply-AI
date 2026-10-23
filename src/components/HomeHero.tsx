@@ -9,11 +9,11 @@ export function HomeHero() {
         <p className="eyebrow">An interactive learning platform</p>
         <h1 id="home-title">Understand <em>AI.</em><br />Don&apos;t just use it.</h1>
         <p className="hero-deck">
-          Simply AI helps you build deep intuition, mental models, and engineering understanding - from the fundamentals to modern AI systems, through interactive learning experiences.
+          Build deep intuition for AI Engineering — from mathematics and data representation to how models learn and how modern AI systems are built.
         </p>
         <div className="built-for">
           <span>Built for</span>
-          <p>Curious Learners <b>·</b> Aspiring AI Engineers <b>·</b> Anyone who wants to truly understand AI</p>
+          <p>AI/ML Learners <b>·</b> Aspiring AI Engineers <b>·</b> Software Engineers moving into AI</p>
         </div>
         <div className="hero-actions">
           <Link className="cta cta-primary" to="/learn">Start Learning <span aria-hidden="true">→</span></Link>

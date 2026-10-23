@@ -5,8 +5,16 @@ import { PlaceholderPage } from './pages/PlaceholderPage';
 import { RoadmapPage } from './pages/RoadmapPage';
 
 export default function App() {
+  const skipToMain = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    const main = document.getElementById('main-content');
+    main?.focus();
+    main?.scrollIntoView();
+  };
+
   return (
     <div className="app-shell">
+      <a className="skip-link" href="#main-content" onClick={skipToMain}>Skip to main content</a>
       <AppHeader />
       <Routes>
         <Route path="/" element={<HomePage />} />
