@@ -59,17 +59,27 @@ export function RoadmapGraph({ selected, onSelect }: RoadmapGraphProps) {
           <svg className="roadmap-decoration" viewBox="0 0 1200 500" preserveAspectRatio="none" aria-hidden="true">
             <defs>
               <linearGradient id="primary-path" x1="0" x2="1"><stop stopColor="#dda848"/><stop offset=".16" stopColor="#21d5e7"/><stop offset="1" stopColor="#21d5e7"/></linearGradient>
+              <linearGradient id="territory-fill" x1="0" y1="0" x2="0" y2="1"><stop stopColor="currentColor" stopOpacity=".17"/><stop offset="1" stopColor="currentColor" stopOpacity="0"/></linearGradient>
               <filter id="path-glow"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             </defs>
             <g className="territory-arcs">
-              <path className="amber" d="M0 118 Q130 16 278 118"/><path d="M276 118 Q500 10 690 118"/><path className="violet" d="M688 118 Q835 18 962 118"/><path d="M958 118 Q1088 22 1200 112"/>
+              <path className="amber" d="M0 118 Q130 -35 278 118 L278 252 Q140 132 0 252 Z"/>
+              <path d="M278 118 Q485 -35 690 118 L690 252 Q485 134 278 252 Z"/>
+              <path className="violet" d="M690 118 Q826 -35 962 118 L962 252 Q826 135 690 252 Z"/>
+              <path d="M962 118 Q1080 -35 1200 118 L1200 252 Q1080 134 962 252 Z"/>
+            </g>
+            <g className="territory-outlines">
+              <path className="amber" d="M0 118 Q130 -35 278 118"/>
+              <path d="M278 118 Q485 -35 690 118"/>
+              <path className="violet" d="M690 118 Q826 -35 962 118"/>
+              <path d="M962 118 Q1080 -35 1200 118"/>
             </g>
             <g className="related-paths">
-              <path d="M55 306 C180 102 298 110 448 342 S710 480 808 266 S1050 96 1172 260"/>
-              <path className="amber" d="M75 282 C162 458 344 438 448 342 S682 164 930 344 S1088 424 1170 184"/>
-              <path d="M196 340 C320 466 475 172 568 374 S790 456 930 344 S1070 250 1150 184"/>
-              <path className="soft" d="M326 260 C482 110 650 182 808 266 S1030 448 1180 360"/>
-              <path className="soft" d="M78 282 C260 210 432 238 568 374 S865 120 1044 270"/>
+              <path d="M196 310 C295 125 448 132 568 308 S730 436 808 306"/>
+              <path d="M196 310 C245 456 379 447 448 340"/>
+              <path d="M568 308 C668 132 758 135 808 306"/>
+              <path d="M808 306 C883 140 984 154 1044 310"/>
+              <path d="M930 340 C1000 444 1100 445 1150 276"/>
             </g>
             <g className="primary-path" filter="url(#path-glow)">
               {points.slice(0, -1).map((point, index) => {

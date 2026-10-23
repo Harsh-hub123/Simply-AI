@@ -55,7 +55,8 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
 
         <div className="inspector-body">
           <div className="concept-prose">
-            {concept.body.map((paragraph, index) => <p className={concept.accentParagraph === index ? 'accent-copy' : ''} key={paragraph}>{paragraph}</p>)}
+            {concept.body.slice(0, concept.body.length > 4 ? 2 : undefined).map((paragraph, index) => <p className={concept.accentParagraph === index ? 'accent-copy' : ''} key={paragraph}>{paragraph}</p>)}
+            {concept.body.length > 4 && <details className="concept-full-explanation"><summary>Read the full explanation</summary>{concept.body.slice(2).map((paragraph, index) => <p className={concept.accentParagraph === index + 2 ? 'accent-copy' : ''} key={paragraph}>{paragraph}</p>)}</details>}
           </div>
           <ConceptVisual visual={concept.visual}/>
           <section className="key-idea" aria-label="Key idea">
