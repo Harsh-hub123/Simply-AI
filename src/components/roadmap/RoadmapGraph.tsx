@@ -1,9 +1,10 @@
+import { useEffect, useRef } from 'react';
 import type { RoadmapConcept } from '../../data/roadmapConcepts';
 import { roadmapConcepts, territories } from '../../data/roadmapConcepts';
 
 const points = [
-  [78, 282], [196, 340], [326, 260], [448, 342], [568, 374],
-  [686, 342], [808, 266], [930, 344], [1044, 270], [1150, 184],
+  [78, 282], [196, 310], [326, 326], [448, 340], [568, 308],
+  [686, 326], [808, 306], [930, 340], [1044, 310], [1150, 276],
 ];
 
 function NodeIcon({ icon }: { icon: RoadmapConcept['icon'] }) {
@@ -30,12 +31,24 @@ interface RoadmapGraphProps {
 
 export function RoadmapGraph({ selected, onSelect }: RoadmapGraphProps) {
   const selectedIndex = selected ? selected.order - 1 : -1;
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!selected) return;
+    const viewport = scrollRef.current;
+    const node = document.getElementById(`roadmap-node-${selected.slug}`);
+    if (!viewport || !node || viewport.scrollWidth <= viewport.clientWidth) return;
+    const desired = Math.max(0, Math.min(viewport.scrollWidth - viewport.clientWidth, node.offsetLeft - viewport.clientWidth * .5));
+    if (Math.abs(viewport.scrollLeft - desired) > viewport.clientWidth * .16) {
+      viewport.scrollTo({ left: desired, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    }
+  }, [selected?.slug]);
 
   return (
     <section className="roadmap-graph" aria-label="AI Engineering concept map">
-      <div className="roadmap-graph-scroll">
+      <div className="roadmap-graph-scroll" ref={scrollRef}>
         <div className="roadmap-canvas">
-          <div className="territory-row" aria-hidden="true">
+          <div className="territory-row" aria-label="Roadmap territories">
             {territories.map((territory) => (
               <div key={territory.id} className={`territory territory-${territory.id}${selected?.territory === territory.id ? ' is-active' : ''}`}>
                 <strong>{territory.title}</strong><span>{territory.subtitle}</span>
@@ -49,7 +62,7 @@ export function RoadmapGraph({ selected, onSelect }: RoadmapGraphProps) {
               <filter id="path-glow"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             </defs>
             <g className="territory-arcs">
-              <path d="M0 118 Q130 16 278 118"/><path d="M276 118 Q500 10 690 118"/><path d="M688 118 Q835 18 962 118"/><path className="amber" d="M958 118 Q1088 22 1200 112"/>
+              <path className="amber" d="M0 118 Q130 16 278 118"/><path d="M276 118 Q500 10 690 118"/><path className="violet" d="M688 118 Q835 18 962 118"/><path d="M958 118 Q1088 22 1200 112"/>
             </g>
             <g className="related-paths">
               <path d="M55 306 C180 102 298 110 448 342 S710 480 808 266 S1050 96 1172 260"/>
@@ -62,7 +75,8 @@ export function RoadmapGraph({ selected, onSelect }: RoadmapGraphProps) {
               {points.slice(0, -1).map((point, index) => {
                 const next = points[index + 1];
                 const active = selectedIndex < 0 || index === selectedIndex || index === selectedIndex - 1;
-                return <path key={index} className={selected && !active ? 'is-muted' : active && selected ? 'is-context' : ''} d={`M${point[0]} ${point[1]} Q${(point[0] + next[0]) / 2} ${Math.min(point[1], next[1]) - 17} ${next[0]} ${next[1]}`} />;
+                const dx = (next[0] - point[0]) * .45;
+                return <path key={index} className={selected && !active ? 'is-muted' : active && selected ? 'is-context' : ''} d={`M${point[0]} ${point[1]} C${point[0] + dx} ${point[1]} ${next[0] - dx} ${next[1]} ${next[0]} ${next[1]}`} />;
               })}
             </g>
             <g className="graph-points">
@@ -82,8 +96,8 @@ export function RoadmapGraph({ selected, onSelect }: RoadmapGraphProps) {
                 style={{ left: `${(x / 1200) * 100}%`, top: `${(y / 500) * 100}%` }}
                 key={concept.id}
                 onClick={() => onSelect(concept)}
-                aria-pressed={selected?.id === concept.id}
-                aria-label={`${concept.id} ${concept.title}. ${concept.tagline}`}
+                aria-current={selected?.id === concept.id ? 'step' : undefined}
+                aria-label={`${concept.id} ${concept.title}, ${concept.territoryLabel}. ${concept.tagline}`}
               >
                 {concept.order === 1 && <span className="start-here" aria-hidden="true">↓ Start here</span>}
                 <span className="roadmap-node-icon"><NodeIcon icon={concept.icon}/></span>
@@ -95,8 +109,9 @@ export function RoadmapGraph({ selected, onSelect }: RoadmapGraphProps) {
       </div>
 
       <div className="roadmap-supporting">
-        <div className="journey-copy"><span className="journey-mark" aria-hidden="true">✦</span><div><h2>A connected journey</h2><p>Each concept builds on the previous ones, forming a complete understanding of AI Engineering.</p></div></div>
-        <div className="roadmap-legend" aria-label="Map legend"><span><i className="legend-primary"/>Primary learning path</span><span><i className="legend-related"/>Related concepts</span></div>
+        <p className="roadmap-swipe-hint">Swipe to explore →</p>
+        <div className="roadmap-legend" aria-label="Map legend"><span><i className="legend-primary"/>Primary learning path</span><span><i className="legend-related"/>Related connections</span></div>
+        <div className="journey-copy"><div><h2>A Connected Journey</h2><p>The primary path gives you a learning sequence. Related connections show how ideas fit into the larger AI system.</p></div></div>
       </div>
     </section>
   );

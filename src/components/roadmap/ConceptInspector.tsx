@@ -1,25 +1,27 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import type { RoadmapConcept } from '../../data/roadmapConcepts';
+import { conceptBySlug, type RoadmapConcept } from '../../data/roadmapConcepts';
 import { ConceptVisual } from './ConceptVisual';
 
 interface ConceptInspectorProps {
   concept: RoadmapConcept;
   isMobile: boolean;
   onClose: () => void;
+  onSelect: (concept: RoadmapConcept) => void;
 }
 
-export function ConceptInspector({ concept, isMobile, onClose }: ConceptInspectorProps) {
+export function ConceptInspector({ concept, isMobile, onClose, onSelect }: ConceptInspectorProps) {
   const panelRef = useRef<HTMLElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     panelRef.current?.scrollTo({ top: 0, behavior: 'auto' });
+    if (isMobile) document.getElementById('inspector-title')?.focus();
   }, [concept.slug]);
 
   useEffect(() => {
     if (!isMobile) return;
-    closeRef.current?.focus();
+    document.getElementById('inspector-title')?.focus();
     const panel = panelRef.current;
     if (!panel) return;
     const keepFocusInside = (event: KeyboardEvent) => {
@@ -28,8 +30,8 @@ export function ConceptInspector({ concept, isMobile, onClose }: ConceptInspecto
       if (!controls.length) return;
       const first = controls[0];
       const last = controls[controls.length - 1];
-      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-      if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      if (event.shiftKey && (document.activeElement === first || document.activeElement?.id === 'inspector-title' || !panel.contains(document.activeElement))) { event.preventDefault(); last.focus(); }
+      if (!event.shiftKey && (document.activeElement === last || !panel.contains(document.activeElement))) { event.preventDefault(); first.focus(); }
     };
     panel.addEventListener('keydown', keepFocusInside);
     return () => panel.removeEventListener('keydown', keepFocusInside);
@@ -43,7 +45,6 @@ export function ConceptInspector({ concept, isMobile, onClose }: ConceptInspecto
       role={isMobile ? 'dialog' : 'complementary'}
       aria-modal={isMobile || undefined}
     >
-      {isMobile && <div className="sheet-grab" aria-hidden="true" />}
       <button ref={closeRef} className="inspector-close" type="button" onClick={onClose} aria-label={`Close ${concept.title} details`}><span aria-hidden="true">×</span></button>
       <div className="inspector-inner" key={concept.slug}>
         <header className="inspector-heading">
@@ -61,7 +62,8 @@ export function ConceptInspector({ concept, isMobile, onClose }: ConceptInspecto
             <h4>{concept.keyLabel}</h4>
             {concept.keyText.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
           </section>
-          <div className="deeper-copy">{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+          <section className="deeper-copy" aria-label="In more detail"><h4>In more detail</h4>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>
+          {concept.nextConcept && conceptBySlug.get(concept.nextConcept) && <button className="connects-next" type="button" onClick={() => onSelect(conceptBySlug.get(concept.nextConcept!)!)}><span><small>Connects next</small><strong>{conceptBySlug.get(concept.nextConcept)!.id} {conceptBySlug.get(concept.nextConcept)!.title}</strong></span><span aria-hidden="true">→</span></button>}
           <Link className="learn-concept-cta" to={concept.learnRoute}>Learn this concept <span aria-hidden="true">→</span></Link>
         </div>
       </div>
