@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.tools/
+node-portable.zip
+mingit-portable.zip
+qa-*.png
+outputs/
+.site-publish/
+*.tsbuildinfo
+.openai/
+My_Github/
