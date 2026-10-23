@@ -1,20 +1,40 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
 type MajorId = 'data-representation' | 'model' | 'loss' | 'gradient';
 
-const majorNodes: Array<{ id: MajorId; title: string; copy: string; icon: React.ReactNode }> = [
-  { id: 'data-representation', title: 'Data Representation', copy: 'How the real world becomes numbers', icon: <><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7"/></> },
-  { id: 'model', title: 'Model', copy: 'What learns from data', icon: <><circle cx="6" cy="6" r="1.5"/><circle cx="18" cy="6" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="6" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/><path d="m7.3 6.8 3.4 4M16.7 6.8l-3.4 4m-2.6 2.4-3.4 4m6-4 3.4 4"/></> },
-  { id: 'loss', title: 'Loss', copy: 'How it knows it is wrong', icon: <><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></> },
-  { id: 'gradient', title: 'Gradient', copy: 'How it finds what to change', icon: <path d="M3 17c4 0 4-10 8-10s4 10 10 10"/> },
+const majorNodes: Array<{ id: MajorId; title: string; copy: string; icon: ReactNode }> = [
+  {
+    id: 'data-representation',
+    title: 'Data Representation',
+    copy: 'How the real world becomes numbers',
+    icon: <><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7"/></>,
+  },
+  {
+    id: 'model',
+    title: 'Model',
+    copy: 'What learns from data',
+    icon: <><path d="m12 2 8 4.6v10.8L12 22l-8-4.6V6.6L12 2Z"/><circle cx="12" cy="7" r="1.2"/><circle cx="7.5" cy="14.5" r="1.2"/><circle cx="16.5" cy="14.5" r="1.2"/><path d="m11.4 8-3.2 5.4m4.4-5.4 3.2 5.4m-7.1 1.1h6.6"/></>,
+  },
+  {
+    id: 'loss',
+    title: 'Loss',
+    copy: 'How it knows it is wrong',
+    icon: <><path d="M4 20h17"/><path d="M6 17v-5h3v5H6Zm5 0V8h3v9h-3Zm5 0V4h3v13h-3Z"/></>,
+  },
+  {
+    id: 'gradient',
+    title: 'Gradient',
+    copy: 'How it finds what to change',
+    icon: <><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v2.1m0 14.8v2.1M2.5 12h2.1m14.8 0h2.1M5.3 5.3l1.5 1.5m10.4 10.4 1.5 1.5m0-13.4-1.5 1.5M6.8 17.2l-1.5 1.5"/><circle cx="12" cy="12" r="7.4"/></>,
+  },
 ];
 
-const connections: Array<{ id: MajorId; d: string; accent?: boolean }> = [
-  { id: 'data-representation', d: 'M360 246 C360 205 360 176 360 140' },
-  { id: 'model', d: 'M294 258 C250 244 224 228 187 218' },
-  { id: 'loss', d: 'M426 258 C470 244 500 228 535 220', accent: true },
-  { id: 'gradient', d: 'M360 316 C360 350 360 375 360 396' },
+const connections: Array<{ id: MajorId; d: string; outgoing?: boolean }> = [
+  { id: 'data-representation', d: 'M360 154 C365 174 390 185 418 196' },
+  { id: 'model', d: 'M565 140 C560 162 544 177 530 190' },
+  { id: 'loss', d: 'M624 247 C598 247 579 241 559 235' },
+  { id: 'gradient', d: 'M475 311 C475 320 475 330 475 340', outgoing: true },
 ];
 
 export function ConceptNetwork() {
@@ -22,32 +42,55 @@ export function ConceptNetwork() {
 
   return (
     <div className="concept-network" aria-label="Map showing concepts connected to AI Systems">
-      <span className="map-orbit map-orbit-one" aria-hidden="true" />
-      <span className="map-orbit map-orbit-two" aria-hidden="true" />
-      <svg className="network-lines" viewBox="0 0 720 520" role="presentation">
-        <g className="secondary-lines">
-          <path d="M187 218 C155 190 134 160 92 150"/><path d="M187 218 C145 240 119 270 80 274"/>
-          <path d="M360 140 C322 114 292 86 265 60"/><path d="M360 140 C411 106 463 74 522 74"/>
-          <path d="M535 220 C577 190 611 188 682 190"/><path d="M535 220 C579 244 606 278 682 285"/>
-          <path d="M360 396 C309 401 275 428 238 466"/><path d="M360 396 C422 398 463 429 509 466"/>
-          <path d="M294 274 C240 312 205 344 132 342"/><path d="M426 276 C474 310 518 336 590 334"/>
+      <svg className="network-lines" viewBox="0 0 860 510" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <marker id="network-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10" />
+          </marker>
+        </defs>
+
+        <g className="network-gridlines">
+          <path d="M28 257 C103 94 290 22 479 42 C674 61 803 165 835 294" />
+          <path d="M64 326 C155 169 300 101 472 102 C657 103 780 208 811 356" />
+          <path d="M82 389 C205 278 318 230 470 224 C620 218 737 277 802 411" />
+          <path d="M111 110 C244 202 327 350 383 490" />
+          <path d="M735 81 C626 184 575 333 561 493" />
+          <path d="M180 36 C317 116 576 118 744 38" />
         </g>
+
+        <g className="network-related-lines">
+          <path className="cyan-dash" d="M122 85 C243 26 374 22 504 54 C636 86 730 169 782 286" />
+          <path className="amber-dash" d="M347 82 C453 64 575 77 673 141 C737 183 773 241 785 302" />
+          <path className="cyan-dash" d="M139 377 C264 465 458 486 623 431 C703 404 758 359 794 302" />
+          <path className="amber-dash" d="M159 337 C255 264 350 236 469 237 C597 238 685 274 769 363" />
+        </g>
+
         <g className="major-lines">
           {connections.map((line) => (
             <path
               key={line.id}
               d={line.d}
-              className={`${line.accent ? 'amber' : ''} ${active === line.id ? 'is-active' : ''} ${active && active !== line.id ? 'is-muted' : ''}`}
+              markerEnd="url(#network-arrow)"
+              className={`${line.outgoing ? 'outgoing' : ''} ${active === line.id ? 'is-active' : ''} ${active && active !== line.id ? 'is-muted' : ''}`}
             />
           ))}
         </g>
-        <g className="junctions">
-          <circle cx="360" cy="140" r="3"/><circle cx="187" cy="218" r="3"/><circle cx="535" cy="220" r="3"/><circle cx="360" cy="396" r="3"/>
-          <circle className="amber-dot" cx="360" cy="176" r="3"/><circle className="amber-dot" cx="488" cy="239" r="3"/>
+
+        <g className="network-points">
+          <circle cx="72" cy="213" r="2"/><circle cx="114" cy="390" r="3"/><circle cx="161" cy="169" r="2"/>
+          <circle cx="207" cy="444" r="2"/><circle cx="253" cy="65" r="2"/><circle cx="307" cy="270" r="2"/>
+          <circle cx="347" cy="82" r="3" className="amber"/><circle cx="399" cy="422" r="2"/><circle cx="440" cy="30" r="2"/>
+          <circle cx="521" cy="76" r="2"/><circle cx="585" cy="448" r="2"/><circle cx="642" cy="105" r="3" className="amber"/>
+          <circle cx="696" cy="386" r="2"/><circle cx="744" cy="173" r="2"/><circle cx="785" cy="302" r="3" className="amber"/>
+          <circle cx="825" cy="235" r="2"/>
         </g>
       </svg>
 
-      <div className="central-node">
+      <div className="central-node" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="m12 2.8 7.8 4.5v9L12 20.8l-7.8-4.5v-9L12 2.8Z"/>
+          <path d="m4.2 7.3 7.8 4.5 7.8-4.5M12 11.8v9M8.1 5.1l7.8 4.5v4.5l-7.8-4.5V5.1Z"/>
+        </svg>
         <span>AI</span>
         <span>Systems</span>
       </div>
@@ -77,8 +120,8 @@ export function ConceptNetwork() {
       <span className="minor-label minor-learning">Learning</span>
       <span className="minor-label minor-optimization">Optimization</span>
       <span className="minor-label minor-evaluation">Evaluation</span>
-      <span className="minor-label minor-neural">Neural Networks</span>
-      <span className="minor-label minor-modern">Modern AI Models</span>
+      <span className="minor-label minor-neural">Neural<br />Networks</span>
+      <span className="minor-label minor-modern">Modern<br />AI Models</span>
       <span className="minor-label minor-deployment">Deployment</span>
     </div>
   );
