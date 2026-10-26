@@ -101,6 +101,10 @@ main { position: relative; }
 .concept-node.is-muted { opacity: .5; }
 .concept-node:focus-visible { outline: 3px solid var(--paper); outline-offset: 5px; box-shadow: 0 0 0 5px rgba(32, 200, 220, .34), 0 0 26px rgba(24, 210, 231, .3); }
 .node-data-representation { left: 28.5%; top: 10%; width: 196px; min-height: 102px; }
+/* Reserve enough text width for the unbroken Representation label. */
+.concept-node.node-data-representation { grid-template-columns: 24px minmax(0, 1fr); column-gap: 4px; padding-inline: 7px; }
+.node-data-representation .concept-node__icon,
+.node-data-representation .concept-node__icon svg { width: 24px; }
 .node-model { left: 60%; top: 10%; width: 168px; }
 .node-loss { right: 9%; top: 42%; width: 166px; }
 .node-gradient { left: 46.8%; bottom: 15.5%; width: 184px; }
