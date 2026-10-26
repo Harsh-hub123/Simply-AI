@@ -55,33 +55,34 @@ function TransformationVisual({ visual }: { visual: Extract<ConceptVisualData, {
   </figure>;
 }
 
-function ModelFlowArrow({ label, className = '' }: { label: string; className?: string }) {
-  return <div className={`${modelStyles.flowArrow} ${className}`}><span>{label}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12h18m-5-5 5 5-5 5"/></svg></div>;
+function ModelFlowArrow({ label }: { label?: string }) {
+  return <div className={modelStyles.flowArrow}>{label && <span>{label}</span>}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v18m-5-5 5 5 5-5"/></svg></div>;
 }
 
 function ModelVisual({ visual }: { visual: Extract<ConceptVisualData, { kind: 'model' }> }) {
   return <figure className={`concept-visual cv-model ${modelStyles.diagram}`} role="img" aria-label={`During training, ${visual.training} trains a model. The same trained model is then used for prediction: ${visual.input} passes through it to produce ${visual.prediction}.`}>
-    <h4 className={modelStyles.stageHeading}>During training</h4>
-    <div className={modelStyles.training}>
-      <VisualNode className={modelStyles.node}>{visual.training}</VisualNode>
-      <ModelFlowArrow label="Trains"/>
-      <VisualNode className={`${modelStyles.node} ${modelStyles.trainedModel}`}><LineIcon name="network"/><span>Trained model</span></VisualNode>
+    <section className={modelStyles.stage}>
+      <h4 className={modelStyles.stageHeading}>During training</h4>
+      <div className={`${modelStyles.flow} ${modelStyles.training}`}>
+        <VisualNode className={modelStyles.node}><LineIcon name="visual"/><span>{visual.training}</span></VisualNode>
+        <ModelFlowArrow label="Learn patterns"/>
+        <VisualNode className={modelStyles.node}><LineIcon name="network"/><span>Trained Model</span></VisualNode>
+      </div>
+    </section>
+    <div className={modelStyles.reuse}>
+      <span>Same trained model</span>
+      <ModelFlowArrow/>
     </div>
-    <div className={modelStyles.handoff}>
-      <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        <path className={modelStyles.carryWide} d="M79 0 C79 38 50 38 50 100"/>
-        <path className={modelStyles.carryNarrow} d="M79 0 V100"/>
-      </svg>
-      <span className={modelStyles.handoffLabel}>Same trained model</span>
+    <section className={modelStyles.stage}>
       <h4 className={modelStyles.stageHeading}>Making a prediction</h4>
-    </div>
-    <div className={modelStyles.prediction}>
-      <VisualNode className={`${modelStyles.node} ${modelStyles.predictionInput}`}>{visual.input}</VisualNode>
-      <ModelFlowArrow label="Input" className={modelStyles.inputArrow}/>
-      <VisualNode className={`${modelStyles.node} ${modelStyles.trainedModel} ${modelStyles.predictionModel}`}><LineIcon name="network"/><span>Trained model</span></VisualNode>
-      <ModelFlowArrow label="Output" className={modelStyles.outputArrow}/>
-      <VisualNode focus className={`${modelStyles.node} ${modelStyles.predictionOutput}`}>{visual.prediction}</VisualNode>
-    </div>
+      <div className={modelStyles.flow}>
+        <VisualNode className={modelStyles.node}><LineIcon name="visual"/><span>{visual.input}</span></VisualNode>
+        <ModelFlowArrow/>
+        <VisualNode className={modelStyles.node}><LineIcon name="network"/><span>Same Trained Model</span></VisualNode>
+        <ModelFlowArrow/>
+        <VisualNode focus className={modelStyles.node}><LineIcon name="clarity"/><span>{visual.prediction}</span></VisualNode>
+      </div>
+    </section>
   </figure>;
 }
 
