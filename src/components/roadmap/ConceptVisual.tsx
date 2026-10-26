@@ -71,7 +71,6 @@ function ModelVisual({ visual }: { visual: Extract<ConceptVisualData, { kind: 'm
     </section>
     <div className={modelStyles.reuse}>
       <span>Same trained model</span>
-      <ModelFlowArrow/>
     </div>
     <section className={modelStyles.stage}>
       <h4 className={modelStyles.stageHeading}>Making a prediction</h4>
