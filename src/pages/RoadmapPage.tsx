@@ -20,16 +20,16 @@ export function RoadmapPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const isMobile = useMobileSheet();
   const mapPaneRef = useRef<HTMLDivElement>(null);
-  const openerRef = useRef<HTMLElement | null>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const selected = conceptBySlug.get(searchParams.get('concept') ?? '') ?? null;
+  const hasSelection = selected !== null;
 
   useEffect(() => {
     if (!isMobile || !selected) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = previousOverflow; };
-  }, [isMobile, selected?.slug]);
+  }, [isMobile, hasSelection]);
 
   useEffect(() => {
     const pane = mapPaneRef.current;
@@ -38,7 +38,7 @@ export function RoadmapPage() {
     const header = document.querySelector<HTMLElement>('.site-header');
     if (header) header.inert = true;
     return () => { pane.inert = false; if (header) header.inert = false; };
-  }, [isMobile, selected?.slug]);
+  }, [isMobile, hasSelection]);
 
   useEffect(() => {
     if (selected || !returnFocusRef.current) return;
@@ -47,16 +47,11 @@ export function RoadmapPage() {
   }, [selected?.slug]);
 
   const selectConcept = (concept: RoadmapConcept) => {
-    if (!selected) openerRef.current = document.activeElement as HTMLElement;
     setSearchParams({ concept: concept.slug }, { replace: Boolean(selected) });
   };
 
   const closeInspector = () => {
-    const opener = openerRef.current;
-    returnFocusRef.current = opener?.isConnected
-      ? opener
-      : selected ? document.getElementById(`roadmap-node-${selected.slug}`) : null;
-    openerRef.current = null;
+    returnFocusRef.current = selected ? document.getElementById(`roadmap-node-${selected.slug}`) : null;
     setSearchParams({}, { replace: true });
   };
 

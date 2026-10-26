@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import type { RoadmapConcept } from '../../data/roadmapConcepts';
 import { roadmapConcepts, territories } from '../../data/roadmapConcepts';
 
@@ -32,21 +32,38 @@ interface RoadmapGraphProps {
 export function RoadmapGraph({ selected, onSelect }: RoadmapGraphProps) {
   const selectedIndex = selected ? selected.order - 1 : -1;
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [hasOverflow, setHasOverflow] = useState(false);
 
-  useEffect(() => {
-    if (!selected) return;
+  useLayoutEffect(() => {
     const viewport = scrollRef.current;
-    const node = document.getElementById(`roadmap-node-${selected.slug}`);
-    if (!viewport || !node || viewport.scrollWidth <= viewport.clientWidth) return;
-    const desired = Math.max(0, Math.min(viewport.scrollWidth - viewport.clientWidth, node.offsetLeft - viewport.clientWidth * .5));
-    if (Math.abs(viewport.scrollLeft - desired) > viewport.clientWidth * .16) {
+    const canvas = viewport?.firstElementChild;
+    if (!viewport || !canvas) return;
+    const revealIfNeeded = () => {
+      const overflowing = viewport.scrollWidth > viewport.clientWidth + 1;
+      setHasOverflow(overflowing);
+      if (!selected || !overflowing) return;
+      const node = document.getElementById(`roadmap-node-${selected.slug}`);
+      if (!node) return;
+      const frame = viewport.getBoundingClientRect();
+      const bounds = [node, ...node.querySelectorAll('.roadmap-node-icon, .roadmap-node-copy strong span')].map((element) => element.getBoundingClientRect());
+      const left = Math.min(...bounds.map((rect) => rect.left));
+      const right = Math.max(...bounds.map((rect) => rect.right));
+      if (left >= frame.left + 12 && right <= frame.right - 12) return;
+      const center = (left + right) / 2;
+      const desired = Math.max(0, Math.min(viewport.scrollWidth - viewport.clientWidth, viewport.scrollLeft + center - frame.left - viewport.clientWidth / 2));
       viewport.scrollTo({ left: desired, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-    }
+    };
+    revealIfNeeded();
+    // Observe layout changes, never scrolling: a learner's manual pan stays put.
+    const observer = new ResizeObserver(revealIfNeeded);
+    observer.observe(viewport);
+    observer.observe(canvas);
+    return () => observer.disconnect();
   }, [selected?.slug]);
 
   return (
     <section className="roadmap-graph" aria-label="AI Engineering concept map">
-      <div className="roadmap-graph-scroll" ref={scrollRef}>
+      <div className="roadmap-graph-scroll" ref={scrollRef} tabIndex={hasOverflow ? 0 : undefined} role="region" aria-label="Scrollable concept map" aria-describedby={hasOverflow ? 'map-scroll-guidance' : undefined}>
         <div className="roadmap-canvas">
           <div className="territory-row" aria-label="Roadmap territories">
             {territories.map((territory) => (
@@ -119,7 +136,7 @@ export function RoadmapGraph({ selected, onSelect }: RoadmapGraphProps) {
       </div>
 
       <div className="roadmap-supporting">
-        <p className="roadmap-swipe-hint">Swipe to explore →</p>
+        {hasOverflow && <p className="roadmap-swipe-hint" id="map-scroll-guidance">Scroll or swipe to explore →</p>}
         <div className="roadmap-legend" aria-label="Map legend"><span><i className="legend-primary"/>Primary learning path</span><span><i className="legend-related"/>Related connections</span></div>
         <div className="journey-copy"><div><h2>A Connected Journey</h2><p>The primary path gives you a learning sequence. Related connections show how ideas fit into the larger AI system.</p></div></div>
       </div>
