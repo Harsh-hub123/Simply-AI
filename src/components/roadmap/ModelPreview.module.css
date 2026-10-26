@@ -1,0 +1,38 @@
+.closingQuestion { margin: 24px 0 0; padding-top: 20px; border-top: 1px solid var(--line); color: var(--paper); font: 400 16px/1.5 var(--sans); }
+
+.diagram:global(.concept-visual) {
+  container-type: inline-size;
+  height: auto;
+  min-height: 0;
+  padding: 14px 12px;
+}
+.stageHeading { margin: 0 0 10px; color: var(--cyan-soft); text-align: left; font: 600 13px/1.4 var(--sans); }
+.training,
+.prediction { display: grid; align-items: stretch; gap: 4px; }
+.training { grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr); }
+.prediction { grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr) 40px minmax(0, 1fr); }
+.diagram .node { position: relative; inset: auto; width: auto; height: auto; min-height: 70px; gap: 6px; padding: 10px 8px; font: 500 14px/1.35 var(--sans); }
+.diagram .trainedModel { min-height: 82px; }
+.trainedModel svg { width: 24px; height: 24px; color: var(--cyan); flex: 0 0 auto; }
+.flowArrow { display: flex; align-items: center; justify-content: center; flex-direction: column; align-self: center; gap: 3px; color: var(--cyan-soft); font: 400 12px/1.3 var(--sans); }
+.flowArrow svg { width: 24px; height: 24px; color: var(--cyan); }
+.handoff { position: relative; height: 84px; }
+.handoff > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.handoff > svg > path { fill: none; stroke: var(--cyan); stroke-width: 1.15; vector-effect: non-scaling-stroke; }
+.handoff::after { content: ''; position: absolute; left: 50%; bottom: 0; width: 6px; height: 6px; border-right: 1.5px solid var(--cyan); border-bottom: 1.5px solid var(--cyan); transform: translate(-50%, -1px) rotate(45deg); }
+.carryNarrow { display: none; }
+.handoffLabel { position: absolute; top: 12px; left: 0; color: var(--muted); font: 400 12px/1.4 var(--sans); }
+.handoff .stageHeading { position: absolute; bottom: 10px; left: 0; margin: 0; }
+
+@container (max-width: 340px) {
+  .prediction { grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr); grid-template-rows: auto 44px auto; row-gap: 6px; }
+  .predictionInput { grid-area: 1 / 1; }
+  .inputArrow { grid-area: 1 / 2; }
+  .predictionModel { grid-area: 1 / 3; }
+  .outputArrow { grid-area: 2 / 3; }
+  .outputArrow svg { transform: rotate(90deg); }
+  .predictionOutput { grid-area: 3 / 3; }
+  .carryWide { display: none; }
+  .carryNarrow { display: block; }
+  .handoff::after { left: 79%; }
+}

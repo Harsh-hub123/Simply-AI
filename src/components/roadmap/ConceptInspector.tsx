@@ -2,6 +2,9 @@ import { useEffect, useLayoutEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { conceptBySlug, type RoadmapConcept } from '../../data/roadmapConcepts';
 import { ConceptVisual } from './ConceptVisual';
+import mathStyles from './MathematicsPreview.module.css';
+import dataStyles from './DataRepresentationPreview.module.css';
+import modelStyles from './ModelPreview.module.css';
 
 interface ConceptInspectorProps {
   concept: RoadmapConcept;
@@ -16,6 +19,9 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
   const headingRef = useRef<HTMLHeadingElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const next = concept.nextConcept ? conceptBySlug.get(concept.nextConcept) : undefined;
+  const isMathematics = concept.slug === 'mathematics';
+  const isDataRepresentation = concept.slug === 'data-representation';
+  const isModel = concept.slug === 'model';
 
   useLayoutEffect(() => {
     readingRef.current?.scrollTo({ top: 0, behavior: 'instant' });
@@ -47,7 +53,7 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
   return (
     <aside
       ref={panelRef}
-      className="concept-inspector"
+      className={isMathematics ? `concept-inspector ${mathStyles.preview}` : isDataRepresentation ? `concept-inspector ${dataStyles.preview}` : 'concept-inspector'}
       aria-labelledby="inspector-title"
       role={isMobile ? 'dialog' : 'complementary'}
       aria-modal={isMobile || undefined}
@@ -73,7 +79,14 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
               <h4>{concept.keyLabel}</h4>
               {concept.keyText.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             </section>
-            <section className="deeper-copy" aria-label="In more detail"><h4>In more detail</h4>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>
+            {isMathematics ? <>
+              <div className={mathStyles.continuation}>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+              <p className={mathStyles.closingQuestion}>First, how do we turn real-world information into something a model can work with?</p>
+            </> : isDataRepresentation ? <>
+              <div className={dataStyles.continuation}>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+              <p className={dataStyles.closingQuestion}>Once the information is represented, what turns it into a prediction?</p>
+            </> : isModel ? <p className={modelStyles.closingQuestion}>How do we measure how far a prediction is from the actual outcome?</p>
+              : <section className="deeper-copy" aria-label="In more detail"><h4>In more detail</h4>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>}
           </div>
         </div>
       </div>

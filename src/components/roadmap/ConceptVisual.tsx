@@ -1,5 +1,9 @@
 import type { ReactNode } from 'react';
 import type { ConceptVisual as ConceptVisualData } from '../../data/roadmapConcepts';
+import { LineIcon } from '../Icons';
+import mathStyles from './MathematicsPreview.module.css';
+import dataStyles from './DataRepresentationPreview.module.css';
+import modelStyles from './ModelPreview.module.css';
 
 function VisualNode({ children, className = '', focus = false }: { children: ReactNode; className?: string; focus?: boolean }) {
   return <div className={`cv-node${focus ? ' cv-node-focus' : ''}${className ? ` ${className}` : ''}`}>{children}</div>;
@@ -17,26 +21,67 @@ function ConnectorLayer({ children, mobile = false }: { children: ReactNode; mob
 const pathMarker = (mobile = false) => `url(#${mobile ? 'cv-arrow-mobile' : 'cv-arrow-wide'})`;
 
 function MathematicsVisual({ visual }: { visual: Extract<ConceptVisualData, { kind: 'hub' }> }) {
-  return <figure className="concept-visual cv-mathematics" role="img" aria-label={`${visual.items.join(', ')} all connect into ${visual.center}`}>
-    <ConnectorLayer><path d="M37 31 C39 31 41 34 43 37" markerEnd={pathMarker()} /><path d="M63 31 C61 31 59 34 57 37" markerEnd={pathMarker()} /><path d="M37 69 C39 69 41 66 43 63" markerEnd={pathMarker()} /><path d="M63 69 C61 69 59 66 57 63" markerEnd={pathMarker()} /></ConnectorLayer>
-    {visual.items.map((item, index) => <VisualNode key={item} className={`cv-math-source cv-math-source-${index + 1}`}>{item}</VisualNode>)}
-    <VisualNode focus className="cv-math-focus">{visual.center}</VisualNode>
+  const ideaIcons = ['visual', 'network', 'engaging', 'why'] as const;
+  return <figure className={`concept-visual cv-mathematics ${mathStyles.diagram}`} role="img" aria-label={`${visual.items.join(', ')} all connect into ${visual.center}`}>
+    <svg className={mathStyles.connections} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M25 30 L43 50"/><path d="M75 30 L57 50"/>
+      <path d="M25 70 L43 50"/><path d="M75 70 L57 50"/>
+    </svg>
+    {visual.items.map((item, index) => <VisualNode key={item} className={`${mathStyles.idea} ${mathStyles[`idea${index + 1}`]}`}><LineIcon name={ideaIcons[index]} /><span>{item}</span></VisualNode>)}
+    <VisualNode focus className={mathStyles.center}>{visual.center}</VisualNode>
   </figure>;
 }
 
 function TransformationVisual({ visual }: { visual: Extract<ConceptVisualData, { kind: 'vector' }> }) {
-  return <figure className="concept-visual cv-transformation" role="img" aria-label={`${visual.subject}, ${visual.details.join(', ')}, transforms into ${visual.result}`}>
-    <ConnectorLayer><path d="M45 50 H59" markerEnd={pathMarker()} /></ConnectorLayer>
-    <ConnectorLayer mobile><path d="M50 42 V63" markerEnd={pathMarker(true)} /></ConnectorLayer>
-    <VisualNode className="cv-transform-source"><b>{visual.subject}</b>{visual.details.map((detail) => <small key={detail}>{detail}</small>)}</VisualNode>
-    <VisualNode focus className="cv-transform-result"><b>{visual.result}</b></VisualNode>
+  const features = visual.details.map((detail) => {
+    const separator = detail.indexOf(':');
+    return { label: detail.slice(0, separator), value: detail.slice(separator + 1).trim() };
+  });
+  const values = visual.result.replace(/^\[\s*|\s*\]$/g, '').split(',').map((value) => value.trim());
+  return <figure className={`concept-visual cv-transformation ${dataStyles.diagram}`} role="img" aria-label={`${visual.subject}, ${visual.details.join(', ')}, transforms into ${visual.result}`}>
+    <VisualNode className={dataStyles.house}>
+      <div className={dataStyles.houseHeading}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m3 11 9-8 9 8M5 10v11h14V10M10 21v-7h4v7"/></svg>
+        <b>{visual.subject}</b>
+      </div>
+      <dl className={dataStyles.features}>{features.map((feature) => <div className={dataStyles.feature} key={feature.label}><dt>{feature.label}:</dt><dd>{feature.value}</dd></div>)}</dl>
+    </VisualNode>
+    <svg className={dataStyles.arrow} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v18m-5-5 5 5 5-5"/></svg>
+    <VisualNode focus className={dataStyles.representation}>
+      <span className={dataStyles.bracket}>[</span>
+      {features.map((feature, index) => <div className={dataStyles.coordinate} key={feature.label}><span className={dataStyles.number}>{values[index]}{index < values.length - 1 ? ',' : ''}</span><span className={dataStyles.label}>{feature.label}</span></div>)}
+      <span className={dataStyles.bracket}>]</span>
+    </VisualNode>
   </figure>;
 }
 
+function ModelFlowArrow({ label, className = '' }: { label: string; className?: string }) {
+  return <div className={`${modelStyles.flowArrow} ${className}`}><span>{label}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12h18m-5-5 5 5-5 5"/></svg></div>;
+}
+
 function ModelVisual({ visual }: { visual: Extract<ConceptVisualData, { kind: 'model' }> }) {
-  return <figure className="concept-visual cv-model" role="img" aria-label={`${visual.training} teaches ${visual.model}. ${visual.input} passes through the model to produce ${visual.prediction}.`}>
-    <ConnectorLayer><path d="M32 24 C36 24 36 39 40 42" markerEnd={pathMarker()} /><path d="M32 76 C36 76 36 61 40 58" markerEnd={pathMarker()} /><path d="M64 50 H73" markerEnd={pathMarker()} /></ConnectorLayer>
-    <VisualNode className="cv-model-training">{visual.training}</VisualNode><VisualNode className="cv-model-input">{visual.input}</VisualNode><VisualNode className="cv-model-core">{visual.model}</VisualNode><VisualNode focus className="cv-model-output">{visual.prediction}</VisualNode>
+  return <figure className={`concept-visual cv-model ${modelStyles.diagram}`} role="img" aria-label={`During training, ${visual.training} trains a model. The same trained model is then used for prediction: ${visual.input} passes through it to produce ${visual.prediction}.`}>
+    <h4 className={modelStyles.stageHeading}>During training</h4>
+    <div className={modelStyles.training}>
+      <VisualNode className={modelStyles.node}>{visual.training}</VisualNode>
+      <ModelFlowArrow label="Trains"/>
+      <VisualNode className={`${modelStyles.node} ${modelStyles.trainedModel}`}><LineIcon name="network"/><span>Trained model</span></VisualNode>
+    </div>
+    <div className={modelStyles.handoff}>
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <path className={modelStyles.carryWide} d="M79 0 C79 38 50 38 50 100"/>
+        <path className={modelStyles.carryNarrow} d="M79 0 V100"/>
+      </svg>
+      <span className={modelStyles.handoffLabel}>Same trained model</span>
+      <h4 className={modelStyles.stageHeading}>Making a prediction</h4>
+    </div>
+    <div className={modelStyles.prediction}>
+      <VisualNode className={`${modelStyles.node} ${modelStyles.predictionInput}`}>{visual.input}</VisualNode>
+      <ModelFlowArrow label="Input" className={modelStyles.inputArrow}/>
+      <VisualNode className={`${modelStyles.node} ${modelStyles.trainedModel} ${modelStyles.predictionModel}`}><LineIcon name="network"/><span>Trained model</span></VisualNode>
+      <ModelFlowArrow label="Output" className={modelStyles.outputArrow}/>
+      <VisualNode focus className={`${modelStyles.node} ${modelStyles.predictionOutput}`}>{visual.prediction}</VisualNode>
+    </div>
   </figure>;
 }
 
