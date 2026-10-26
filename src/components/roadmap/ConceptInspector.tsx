@@ -31,7 +31,7 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
       const first = controls[0];
       const last = controls[controls.length - 1];
       if (event.shiftKey && (document.activeElement === first || document.activeElement?.id === 'inspector-title' || !panel.contains(document.activeElement))) { event.preventDefault(); last.focus(); }
-      if (!event.shiftKey && (document.activeElement === last || !panel.contains(document.activeElement))) { event.preventDefault(); first.focus(); }
+      if (!event.shiftKey && (document.activeElement === last || document.activeElement?.id === 'inspector-title' || !panel.contains(document.activeElement))) { event.preventDefault(); first.focus(); }
     };
     panel.addEventListener('keydown', keepFocusInside);
     return () => panel.removeEventListener('keydown', keepFocusInside);
@@ -65,7 +65,9 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
           </section>
           <section className="deeper-copy" aria-label="In more detail"><h4>In more detail</h4>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>
           {concept.nextConcept && conceptBySlug.get(concept.nextConcept) && <button className="connects-next" type="button" onClick={() => onSelect(conceptBySlug.get(concept.nextConcept!)!)}><span><small>Connects next</small><strong>{conceptBySlug.get(concept.nextConcept)!.id} {conceptBySlug.get(concept.nextConcept)!.title}</strong></span><span aria-hidden="true">→</span></button>}
-          <Link className="learn-concept-cta" to={concept.learnRoute}>Learn this concept <span aria-hidden="true">→</span></Link>
+          {concept.lessonStatus === 'available'
+            ? <Link className="learn-concept-cta" to={concept.learnRoute}>Learn this concept <span aria-hidden="true">→</span></Link>
+            : <p className="learn-concept-cta lesson-planned">Lesson planned</p>}
         </div>
       </div>
     </aside>

@@ -8,10 +8,10 @@
 
 | Window | Status | What it does |
 | --- | --- | --- |
-| Home | Implemented | Introduces the learning approach, displays an interactive AI systems network, and links to Learn and Roadmap. |
+| Home | Implemented | Introduces the learning approach and interactive AI systems network; Explore the Map is the primary action and Learn is labeled coming soon. |
 | Roadmap | Implemented | Shows ten concepts across four territories, a primary learning path, related connections, and a concept inspector with a distinct mini visual for each concept. |
-| Learn | Placeholder | Receives the Home CTA and concept-specific links from Roadmap; learning content is not implemented yet. |
-| Support | Placeholder | Navigation destination reserved for a later phase. |
+| Learn | Planned | Visible in navigation with a Planned label; its direct page explains that lessons are being developed and links to Roadmap. |
+| Support | Planned | Removed from primary navigation; its direct route explains that Support resources are not available yet and links to Home. |
 
 The Roadmap sequence is Mathematics → Data Representation → Model → Loss → Gradient → Optimization → Neural Networks → Representation Learning → Modern AI Models → Modern AI Systems. Concept content, ordering, territories, mini-visual data, and destination links live in [`src/data/roadmapConcepts.ts`](src/data/roadmapConcepts.ts).
 
@@ -50,7 +50,7 @@ The app uses React Router. Local development uses browser-history URLs; the GitH
 | Learn placeholder | `/learn` | `/#/learn` |
 | Support placeholder | `/support` | `/#/support` |
 
-The Home network's major concepts link directly to their Roadmap inspector through `?concept=<slug>`. On Roadmap, selecting a node updates that query parameter; a valid direct link opens its inspector. An unknown slug leaves the map in its default state. The inspector's **Connects next** control selects the next concept, and **Learn this concept** goes to `/learn?concept=<slug>`; Learn currently remains a placeholder. Closing the inspector clears the query parameter. Escape also closes it.
+The Home network's major concepts link directly to their Roadmap inspector through `?concept=<slug>`. On Roadmap, selecting a node updates that query parameter; a valid direct link opens its inspector. An unknown slug leaves the map in its default state. The inspector's **Connects next** control selects the next concept. All ten concepts currently show a noninteractive **Lesson planned** status. Closing the inspector clears the query parameter. Escape also closes it.
 
 On narrow screens, the map scrolls horizontally and brings a selected node into view. Its inspector becomes a scrollable modal bottom sheet. The map and header are inert while the sheet is open, focus stays in the sheet, and focus returns to the opening node when it closes.
 
@@ -94,12 +94,12 @@ The visual system is recorded in [`docs/design.md`](docs/design.md): navy/graphi
 ## Updating the Roadmap
 
 1. Edit the relevant record in `src/data/roadmapConcepts.ts`. Keep its `slug` stable if existing shared URLs should continue to work.
-2. For a new concept, supply a unique `id`, `slug`, `order`, territory, copy, icon, `visual`, and `learnRoute`. Set `nextConcept` only when there is a next step.
+2. For a new concept, supply a unique `id`, `slug`, `order`, territory, copy, icon, `visual`, `lessonStatus`, and `learnRoute`. Set `nextConcept` only when there is a next step.
 3. Add or adjust its position and connection geometry in `RoadmapGraph.tsx`; the current path and ten node positions are defined there.
 4. If adding a new visual *kind*, extend the `ConceptVisual` union in the data file and the renderer in `ConceptVisual.tsx`, then style it in `roadmap.css`.
 5. Run `npm run build` and inspect the default map, selected inspector, and mobile sheet. Check direct links and keyboard navigation.
 
-The current `learnRoute` values point to the Learn placeholder. They preserve the selected concept in the URL for future Learn implementation; they do not yet open a lesson.
+Each concept has `lessonStatus: 'planned'`. The inspector only renders a lesson link when this is `'available'`; keep lessons planned until they actually exist. The existing `learnRoute` values are retained for future implementation and currently resolve to the Learn placeholder.
 
 ## Accessibility and responsive behavior
 

@@ -457,7 +457,8 @@
   box-shadow: 0 8px 25px rgba(32, 200, 220, .11);
 }
 .learn-concept-cta span { font: 400 24px/1 var(--sans); }
-.learn-concept-cta:hover { filter: brightness(1.06); }
+.learn-concept-cta:not(.lesson-planned):hover { filter: brightness(1.06); }
+.lesson-planned { margin-bottom: 0; border-color: var(--line); background: rgba(6, 40, 53, .46); color: var(--muted); box-shadow: none; }
 .sheet-grab,
 .sheet-scrim { display: none; }
 

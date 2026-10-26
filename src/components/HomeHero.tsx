@@ -19,8 +19,8 @@ export function HomeHero() {
           <p>AI/ML Learners <b>·</b> Aspiring AI Engineers <b>·</b> Software Engineers moving into AI</p>
         </div>
         <div className="hero-actions">
-          <Link className="cta cta-primary" to="/learn">Start Learning <span aria-hidden="true">→</span></Link>
-          <Link className="cta cta-secondary" to="/roadmap"><LineIcon name="map" /> Explore the Map <span aria-hidden="true">→</span></Link>
+          <Link className="cta cta-primary" to="/roadmap"><LineIcon name="map" /> Explore the Map <span aria-hidden="true">→</span></Link>
+          <Link className="cta cta-secondary cta-availability" to="/learn">Learn — coming soon</Link>
         </div>
       </div>
       <div className="hero-visual">

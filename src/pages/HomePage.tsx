@@ -1,6 +1,7 @@
 import { HomeHero } from '../components/HomeHero';
 import { LineIcon } from '../components/Icons';
 import { SectionLabel } from '../components/SectionLabel';
+import styles from './HomeSections.module.css';
 
 const principles = [
   { icon: 'intuition' as const, title: 'Intuition First', copy: 'Understand why a concept exists before memorizing terminology.' },
@@ -8,11 +9,10 @@ const principles = [
   { icon: 'doing' as const, title: 'Learn by Doing', copy: 'Reason, predict, compare and explain through examples, experiments and real engineering context.' },
 ];
 
-const learningSteps = [
-  { number: '01', icon: 'why' as const, title: 'Start with Why', copy: 'Understand why a concept exists and what problem it helps us solve.' },
-  { number: '02', icon: 'visual' as const, title: 'See It Visually', copy: 'Build mental models through clear diagrams, simple examples and intuitive explanations.' },
-  { number: '03', icon: 'brain' as const, title: 'Reason Through It', copy: 'Predict, compare, question and explain to strengthen understanding.' },
-  { number: '04', icon: 'network' as const, title: 'Connect It', copy: 'See how each idea fits into the larger AI system and what comes next.' },
+const learningMethods = [
+  { icon: 'book' as const, title: 'Explore Examples', copy: 'See the concept in familiar situations through clear explanations and simple visuals.' },
+  { icon: 'sliders' as const, title: 'Try Experiments', copy: 'Change one thing, observe what happens and understand why the result changed.' },
+  { icon: 'feedback' as const, title: 'Check Your Understanding', copy: 'Apply the concept to a new situation, explain your reasoning and use feedback to deepen your understanding.' },
 ];
 
 export function HomePage() {
@@ -23,7 +23,7 @@ export function HomePage() {
         <HomeHero />
       </div>
 
-      <section className="info-band principles" aria-labelledby="principles-title">
+      <section className={`info-band principles ${styles.supporting}`} aria-labelledby="principles-title">
         <div className="page-container">
           <SectionLabel><span id="principles-title">What makes Simply AI different</span></SectionLabel>
           <div className="principle-grid">
@@ -40,21 +40,20 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="info-band learning-method" aria-labelledby="learning-method-title">
+      <section className={`info-band ${styles.process} ${styles.supporting}`} aria-labelledby="learning-method-title">
         <div className="page-container">
-          <SectionLabel><span id="learning-method-title">How you&apos;ll learn</span></SectionLabel>
-          <div className="learning-grid">
-            {learningSteps.map((item) => (
-              <article className="learning-item" key={item.number}>
-                <span className="learning-number" aria-hidden="true">{item.number}</span>
-                <div className="icon-medallion small"><LineIcon name={item.icon} /></div>
+          <SectionLabel><span id="learning-method-title">How you’ll learn</span></SectionLabel>
+          <ul className={`principle-grid ${styles.processList}`} role="list">
+            {learningMethods.map((item) => (
+              <li className={`principle-item ${styles.step}`} key={item.icon}>
+                <div className="icon-medallion" aria-hidden="true"><LineIcon name={item.icon} /></div>
                 <div>
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
                 </div>
-              </article>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
     </main>

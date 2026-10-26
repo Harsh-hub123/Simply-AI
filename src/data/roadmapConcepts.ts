@@ -28,6 +28,7 @@ export interface RoadmapConcept {
   keyText: string[];
   deeper: string[];
   nextConcept?: string;
+  lessonStatus: 'planned' | 'available';
   learnRoute: string;
   icon: 'math' | 'data' | 'model' | 'loss' | 'gradient' | 'optimization' | 'neural' | 'layers' | 'modern-model' | 'system';
 }
@@ -53,7 +54,7 @@ export const roadmapConcepts: RoadmapConcept[] = [
     keyLabel: 'The goal here is not to master every formula first.',
     keyText: ['It is to understand why mathematical ideas keep appearing throughout AI and what each one helps us describe.'],
     deeper: ['Later, we will go much deeper into the mathematics as each concept becomes necessary.'],
-    nextConcept: 'data-representation', learnRoute: '/learn?concept=mathematics',
+    nextConcept: 'data-representation', lessonStatus: 'planned', learnRoute: '/learn?concept=mathematics',
   },
   {
     id: '02', slug: 'data-representation', order: 2, mapTitle: 'Data\nRepresentation', title: 'Data Representation',
@@ -68,7 +69,7 @@ export const roadmapConcepts: RoadmapConcept[] = [
     keyLabel: 'The important idea is:',
     keyText: ['The model does not receive the real-world object itself. It receives a representation of information about it.', 'And different tasks may need different representations.'],
     deeper: ['Later, we will explore how images, text, sound, and other forms of information are represented for AI systems.'],
-    nextConcept: 'model', learnRoute: '/learn?concept=data-representation',
+    nextConcept: 'model', lessonStatus: 'planned', learnRoute: '/learn?concept=data-representation',
   },
   {
     id: '03', slug: 'model', order: 3, mapTitle: 'Model', title: 'Model', territory: 'learning', territoryLabel: 'LEARNING MECHANISM',
@@ -77,7 +78,7 @@ export const roadmapConcepts: RoadmapConcept[] = [
     visual: { kind: 'model', training: 'Training Data', model: 'Model learns patterns', input: 'New Input', prediction: 'Prediction' },
     keyLabel: 'The important idea is:', keyText: ['A model learns a relationship from data and uses that relationship to make predictions.'],
     deeper: ['Later, we will explore what actually changes inside the model while this learning happens.'],
-    nextConcept: 'loss', learnRoute: '/learn?concept=model',
+    nextConcept: 'loss', lessonStatus: 'planned', learnRoute: '/learn?concept=model',
   },
   {
     id: '04', slug: 'loss', order: 4, mapTitle: 'Loss', title: 'Loss', territory: 'learning', territoryLabel: 'LEARNING MECHANISM',
@@ -86,7 +87,7 @@ export const roadmapConcepts: RoadmapConcept[] = [
     visual: { kind: 'compare', items: [{ title: 'Prediction', value: '₹52L' }, { title: 'Actual value', value: '₹60L' }], result: 'Loss', note: 'A numerical measure of the error' },
     keyLabel: 'The important idea is:', keyText: ['Loss tells us how wrong the model’s prediction is.', 'A smaller loss generally means the prediction is closer to the outcome we wanted.'],
     deeper: ['Later, we will explore different loss functions and how they guide the learning process.'],
-    nextConcept: 'gradient', learnRoute: '/learn?concept=loss',
+    nextConcept: 'gradient', lessonStatus: 'planned', learnRoute: '/learn?concept=loss',
   },
   {
     id: '05', slug: 'gradient', order: 5, mapTitle: 'Gradient', title: 'Gradient', territory: 'learning', territoryLabel: 'LEARNING MECHANISM',
@@ -95,7 +96,7 @@ export const roadmapConcepts: RoadmapConcept[] = [
     visual: { kind: 'gradient', parameters: 'Parameters', parameterNote: 'θ₁ · θ₂ · θ₃ · …', loss: 'Loss', gradient: 'Gradient', question: 'How would changing these parameters affect the loss?' },
     keyLabel: 'One important detail:', keyText: ['The gradient points in the direction where the loss increases most rapidly.', 'To reduce the loss, learning typically moves in the opposite direction.'],
     deeper: ['Later, we will explore this much more deeply because gradients are one of the key ideas behind how modern models learn.'],
-    nextConcept: 'optimization', learnRoute: '/learn?concept=gradient',
+    nextConcept: 'optimization', lessonStatus: 'planned', learnRoute: '/learn?concept=gradient',
   },
   {
     id: '06', slug: 'optimization', order: 6, mapTitle: 'Optimization', title: 'Optimization', territory: 'learning', territoryLabel: 'LEARNING MECHANISM',
@@ -104,7 +105,7 @@ export const roadmapConcepts: RoadmapConcept[] = [
     visual: { kind: 'feedback', steps: ['Prediction', 'Loss', 'Gradient', 'Update Parameters'], repeat: '↺ Repeat' },
     keyLabel: 'The important idea is:', keyText: ['Optimization is the process that turns gradient information into repeated parameter updates.', 'One important factor is the learning rate, which controls how large each update step is.'],
     deeper: ['Later, we will explore different optimization algorithms such as Gradient Descent, SGD, and Adam, and why the way we update parameters matters.'],
-    nextConcept: 'neural-networks', learnRoute: '/learn?concept=optimization',
+    nextConcept: 'neural-networks', lessonStatus: 'planned', learnRoute: '/learn?concept=optimization',
   },
   {
     id: '07', slug: 'neural-networks', order: 7, mapTitle: 'Neural\nNetworks', title: 'Neural Networks', territory: 'deep-learning', territoryLabel: 'DEEP LEARNING',
@@ -113,7 +114,7 @@ export const roadmapConcepts: RoadmapConcept[] = [
     visual: { kind: 'layers', steps: ['Input', 'Layer 1', 'Layer 2', 'Layer 3', 'Prediction'] },
     keyLabel: 'The important idea is:', keyText: ['A neural network builds a prediction through a sequence of learned transformations.', 'And it still learns using the same core mechanism we have already seen:', 'Prediction → Loss → Gradient → Optimization'],
     deeper: ['Later, we will explore what neurons, layers, activations, forward passes, and backpropagation are actually doing inside this process.'],
-    nextConcept: 'representation-learning', learnRoute: '/learn?concept=neural-networks',
+    nextConcept: 'representation-learning', lessonStatus: 'planned', learnRoute: '/learn?concept=neural-networks',
   },
   {
     id: '08', slug: 'representation-learning', order: 8, mapTitle: 'Representation\nLearning', title: 'Representation Learning', territory: 'deep-learning', territoryLabel: 'DEEP LEARNING',
@@ -122,7 +123,7 @@ export const roadmapConcepts: RoadmapConcept[] = [
     visual: { kind: 'representations', steps: [{ title: 'Raw Input' }, { title: 'Early Representation', note: 'simple patterns' }, { title: 'Deeper Representation', note: 'more meaningful patterns' }, { title: 'Prediction' }] },
     keyLabel: 'The important idea is:', keyText: ['A neural network can learn how to represent information in ways that make the task easier.', 'This is one of the major reasons deep learning became so powerful.'],
     deeper: ['Later, we will explore embeddings, learned features, latent representations, and how modern models build useful internal representations automatically.'],
-    nextConcept: 'modern-ai-models', learnRoute: '/learn?concept=representation-learning',
+    nextConcept: 'modern-ai-models', lessonStatus: 'planned', learnRoute: '/learn?concept=representation-learning',
   },
   {
     id: '09', slug: 'modern-ai-models', order: 9, mapTitle: 'Modern\nAI Models', title: 'Modern AI Models', territory: 'modern-ai', territoryLabel: 'MODERN AI',
@@ -131,7 +132,7 @@ export const roadmapConcepts: RoadmapConcept[] = [
     visual: { kind: 'branch', source: 'Large-scale Training Data', model: 'Pretrained Model', taskLabel: 'Many Tasks', tasks: ['Question Answering', 'Generation', 'Classification', 'Code', 'Images'] },
     keyLabel: 'The important idea is:', keyText: ['Modern AI increasingly starts with powerful pretrained models that can be adapted to many different problems.', 'This is the foundation behind technologies such as ChatGPT, Claude, HiggsField etc.'],
     deeper: ['Later, we will explore transformers, pretraining, foundation models, LLMs, and how these models gain their broad capabilities.'],
-    nextConcept: 'modern-ai-systems', learnRoute: '/learn?concept=modern-ai-models',
+    nextConcept: 'modern-ai-systems', lessonStatus: 'planned', learnRoute: '/learn?concept=modern-ai-models',
   },
   {
     id: '10', slug: 'modern-ai-systems', order: 10, mapTitle: 'Modern\nAI Systems', title: 'Modern AI Systems', territory: 'modern-ai', territoryLabel: 'MODERN AI',
@@ -140,7 +141,7 @@ export const roadmapConcepts: RoadmapConcept[] = [
     visual: { kind: 'system', entry: 'User / Application', core: 'AI System', parts: ['Model', 'Data', 'Tools', 'Memory', 'Retrieval'], result: 'Actions / Responses' },
     keyLabel: 'The important idea is:', keyText: ['The model is only one component inside a complete AI system.', 'What makes the product useful is how all of these components work together.'],
     deeper: ['Later, we will explore RAG, agents, tool use, orchestration, deployment, monitoring, and how production AI systems are actually built.'],
-    learnRoute: '/learn?concept=modern-ai-systems',
+    lessonStatus: 'planned', learnRoute: '/learn?concept=modern-ai-systems',
   },
 ];
 

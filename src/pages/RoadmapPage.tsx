@@ -21,6 +21,7 @@ export function RoadmapPage() {
   const isMobile = useMobileSheet();
   const mapPaneRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
+  const returnFocusRef = useRef<HTMLElement | null>(null);
   const selected = conceptBySlug.get(searchParams.get('concept') ?? '') ?? null;
 
   useEffect(() => {
@@ -39,20 +40,24 @@ export function RoadmapPage() {
     return () => { pane.inert = false; if (header) header.inert = false; };
   }, [isMobile, selected?.slug]);
 
+  useEffect(() => {
+    if (selected || !returnFocusRef.current) return;
+    returnFocusRef.current.focus();
+    returnFocusRef.current = null;
+  }, [selected?.slug]);
+
   const selectConcept = (concept: RoadmapConcept) => {
     if (!selected) openerRef.current = document.activeElement as HTMLElement;
     setSearchParams({ concept: concept.slug }, { replace: Boolean(selected) });
   };
 
   const closeInspector = () => {
-    const lastSlug = selected?.slug;
+    const opener = openerRef.current;
+    returnFocusRef.current = opener?.isConnected
+      ? opener
+      : selected ? document.getElementById(`roadmap-node-${selected.slug}`) : null;
+    openerRef.current = null;
     setSearchParams({}, { replace: true });
-    window.requestAnimationFrame(() => {
-      const opener = openerRef.current;
-      if (opener?.isConnected) opener.focus();
-      else if (lastSlug) document.getElementById(`roadmap-node-${lastSlug}`)?.focus();
-      openerRef.current = null;
-    });
   };
 
   useEffect(() => {

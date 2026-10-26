@@ -1,0 +1,32 @@
+.supporting :global(.principle-item) h3,
+.supporting .step h3 {
+  margin: 0 0 8px;
+  color: var(--paper);
+  font: 400 22px/1.25 var(--display);
+}
+
+.supporting :global(.principle-item) p,
+.supporting .step p {
+  margin: 0;
+  color: #b9bdc0;
+  font: 400 16px/1.5 var(--display);
+}
+
+.supporting :global(.principle-item) { align-items: flex-start; }
+.supporting :global(.principle-item .icon-medallion) { transform: none; }
+
+.process:global(.info-band) > :global(.page-container) {
+  padding-block: 24px 34px;
+}
+
+.process :global(.section-label) { margin-bottom: 24px; }
+.processList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.step { min-width: 0; }
+
+@media (max-width: 600px) {
+  .process:global(.info-band) > :global(.page-container) { padding-block: 24px 28px; }
+}

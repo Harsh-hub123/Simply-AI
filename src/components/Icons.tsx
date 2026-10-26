@@ -1,4 +1,4 @@
-type IconName = 'intuition' | 'connected' | 'doing' | 'brain' | 'network' | 'clarity' | 'engaging' | 'map' | 'why' | 'visual';
+type IconName = 'intuition' | 'connected' | 'doing' | 'brain' | 'network' | 'clarity' | 'engaging' | 'map' | 'why' | 'visual' | 'book' | 'sliders' | 'feedback';
 
 export function LineIcon({ name }: { name: IconName }) {
   const common = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
@@ -13,6 +13,9 @@ export function LineIcon({ name }: { name: IconName }) {
     map: <><path {...common} d="m3 6 5-2 8 2 5-2v14l-5 2-8-2-5 2V6Z"/><path {...common} d="M8 4v14m8-12v14"/></>,
     why: <><path {...common} d="M9.2 8.5a3 3 0 1 1 4.2 2.75c-1 .5-1.4 1.1-1.4 2.25"/><path {...common} d="M12 17.5v.1"/><circle {...common} cx="12" cy="12" r="9"/></>,
     visual: <><path {...common} d="M6 3h9l3 3v15H6V3Z"/><path {...common} d="M15 3v4h4M9 11h6m-6 3h6m-6 3h4"/></>,
+    book: <><path {...common} d="M12 6C9 4 6 3.5 3 5v14c3-1.5 6-1 9 1 3-2 6-2.5 9-1V5c-3-1.5-6-1-9 1Zm0 0v14"/><path {...common} d="M6 8.5c1-.1 2 .2 3 .7m-3 3.3c1-.1 2 .2 3 .7m6-4c1-.5 2-.8 3-.7m-3 4.7c1-.5 2-.8 3-.7"/></>,
+    sliders: <><path {...common} d="M4 6h6m4 0h6M4 12h10m4 0h2M4 18h2m4 0h10"/><circle {...common} cx="12" cy="6" r="2"/><circle {...common} cx="16" cy="12" r="2"/><circle {...common} cx="8" cy="18" r="2"/></>,
+    feedback: <><path {...common} d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 3v-3a2 2 0 0 1-1-2V6a2 2 0 0 1 2-2Z"/><path {...common} d="m8 11 3 3 5-6"/></>,
   };
 
   return <svg viewBox="0 0 24 24" aria-hidden="true">{paths[name]}</svg>;
