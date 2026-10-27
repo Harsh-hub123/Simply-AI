@@ -24,6 +24,8 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
   const isDataRepresentation = concept.slug === 'data-representation';
   const isModel = concept.slug === 'model';
   const isLoss = concept.slug === 'loss';
+  const isGradient = concept.slug === 'gradient';
+  const hasCollapsedExplanation = concept.body.length > 4 && !isGradient;
 
   useLayoutEffect(() => {
     readingRef.current?.scrollTo({ top: 0, behavior: 'instant' });
@@ -73,8 +75,8 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
 
           <div className="inspector-body">
             <div className="concept-prose">
-              {concept.body.slice(0, concept.body.length > 4 ? 2 : undefined).map((paragraph, index) => <p className={concept.accentParagraph === index ? 'accent-copy' : ''} key={paragraph}>{paragraph}</p>)}
-              {concept.body.length > 4 && <details className="concept-full-explanation"><summary>Read the full explanation</summary>{concept.body.slice(2).map((paragraph, index) => <p className={concept.accentParagraph === index + 2 ? 'accent-copy' : ''} key={paragraph}>{paragraph}</p>)}</details>}
+              {concept.body.slice(0, hasCollapsedExplanation ? 2 : undefined).map((paragraph, index) => <p className={concept.accentParagraph === index ? 'accent-copy' : ''} key={paragraph}>{paragraph}</p>)}
+              {hasCollapsedExplanation && <details className="concept-full-explanation"><summary>Read the full explanation</summary>{concept.body.slice(2).map((paragraph, index) => <p className={concept.accentParagraph === index + 2 ? 'accent-copy' : ''} key={paragraph}>{paragraph}</p>)}</details>}
             </div>
             <ConceptVisual visual={concept.visual}/>
             {isLoss && <p className={lossStyles.supportingNote}>We’ll explore different ways to measure a model’s error as we go deeper.</p>}
@@ -90,6 +92,7 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
               <p className={dataStyles.closingQuestion}>Once the information is represented, what turns it into a prediction?</p>
             </> : isModel ? <p className={modelStyles.closingQuestion}>How do we measure how far a prediction is from the actual outcome?</p>
               : isLoss ? <section className={lossStyles.transition} aria-label="What comes next"><h4>What comes next</h4><p>Training aims to reduce this loss. How can we tell which changes inside the model would help?</p></section>
+                : isGradient ? <section className="deeper-copy" aria-label="Looking ahead"><h4>Looking ahead</h4><p>This is just the starting point. We’ll revisit gradients later to understand their role in training modern AI models.</p></section>
                 : <section className="deeper-copy" aria-label="In more detail"><h4>In more detail</h4>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>}
           </div>
         </div>
