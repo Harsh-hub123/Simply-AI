@@ -3,6 +3,7 @@ import { AppHeader } from './components/AppHeader';
 import { HomePage } from './pages/HomePage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { RoadmapPage } from './pages/RoadmapPage';
+import { LearnPage } from './pages/LearnPage';
 
 export default function App() {
   const skipToMain = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -20,7 +21,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<Navigate to="/" replace />} />
         <Route path="/roadmap" element={<RoadmapPage />} />
-        <Route path="/learn" element={<PlaceholderPage title="Learn" />} />
+        <Route path="/learn" element={<LearnPage />} />
         <Route path="/support" element={<PlaceholderPage title="Support" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
