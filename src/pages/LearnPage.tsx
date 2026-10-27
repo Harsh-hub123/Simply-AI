@@ -86,6 +86,7 @@ function ScreenFive() {
 }
 
 const screens = [ScreenOne, ScreenTwo, ScreenThree, ScreenFour, ScreenFive];
+const stepLabels = ['Why mathematics?', 'Organizing information', 'Relationships and change', 'Uncertainty', 'The big picture'];
 
 export function LearnPage() {
   const [params, setParams] = useSearchParams();
@@ -96,31 +97,49 @@ export function LearnPage() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const navigationRef = useRef<HTMLButtonElement>(null);
   const [topicsOpen, setTopicsOpen] = useState(false);
+  const [mathematicsOpen, setMathematicsOpen] = useState(!isPlanned);
+  const [upcomingOpen, setUpcomingOpen] = useState(false);
   const Screen = screens[step - 1];
 
   useLayoutEffect(() => {
+    setTopicsOpen(false);
+    if (!isPlanned) setMathematicsOpen(true);
     headingRef.current?.focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [step, requestedTopic]);
 
   const goToStep = (value: number) => setParams({ topic: 'mathematics', step: String(value) });
-  const selectMathematics = () => {
+  const selectStep = () => {
     setTopicsOpen(false);
     headingRef.current?.focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
+  const closeTopics = () => {
+    setTopicsOpen(false);
+    navigationRef.current?.focus({ preventScroll: true });
+  };
 
   return <main id="main-content" tabIndex={-1} className={s.learn}>
     <aside className={s.sidebar}>
-      <button ref={navigationRef} className={s.topicToggle} type="button" aria-expanded={topicsOpen} aria-controls="learn-topics" onClick={() => setTopicsOpen(!topicsOpen)} onKeyDown={event => { if (event.key === 'Escape') setTopicsOpen(false); }}>Block 01 · Mathematics <span aria-hidden="true">{topicsOpen ? '−' : '+'}</span><span className="sr-only"> — Topic navigation</span></button>
-      <div id="learn-topics" className={`${s.topicNavigation} ${topicsOpen ? s.topicsOpen : ''}`} onKeyDown={event => { if (event.key === 'Escape') { setTopicsOpen(false); navigationRef.current?.focus(); } }}>
+      <button ref={navigationRef} className={s.topicToggle} type="button" aria-expanded={topicsOpen} aria-controls="learn-topics" onClick={() => topicsOpen ? closeTopics() : setTopicsOpen(true)} onKeyDown={event => { if (event.key === 'Escape') closeTopics(); }}>Block 01 · Mathematics <span aria-hidden="true">{topicsOpen ? '−' : '+'}</span><span className="sr-only"> — Topic navigation</span></button>
+      <div id="learn-topics" className={`${s.topicNavigation} ${topicsOpen ? s.topicsOpen : ''}`} onKeyDown={event => { if (event.key === 'Escape' && topicsOpen) { event.stopPropagation(); closeTopics(); } }}>
         <h2>Learn</h2><p>A structured path from<br/>foundations to real AI systems.</p>
-        <nav className={s.block} aria-label="Block 01 topics"><header><span aria-hidden="true">▣</span><div><b>Block 01</b><p>AI Engineering Foundations</p></div></header><ol>{roadmapConcepts.map((concept, index) => <li className={index === 0 && !isPlanned ? s.currentTopic : ''} key={concept.slug}>{index === 0 ? <Link to="/learn?topic=mathematics&step=1" aria-current={!isPlanned ? 'page' : undefined} onClick={selectMathematics}><span className={s.topicDot}/><span>{concept.id}</span><span>Mathematics</span></Link> : <span className={s.plannedTopic} aria-disabled="true"><span className={s.topicDot}/><span>{concept.id}</span><span>{concept.title}<small>Planned</small></span></span>}</li>)}</ol></nav>
+        <nav className={s.block} aria-label="Block 01 topics">
+          <header><span aria-hidden="true">▣</span><div><b>Block 01</b><p>AI Engineering Foundations</p></div></header>
+          <div className={s.topicGroup}>
+            <button className={`${s.topicControl} ${!isPlanned ? s.currentTopic : ''}`} type="button" aria-expanded={mathematicsOpen} aria-controls="mathematics-steps" onClick={() => setMathematicsOpen(!mathematicsOpen)}><span>01</span><strong>Mathematics</strong><span aria-hidden="true">{mathematicsOpen ? '−' : '+'}</span></button>
+            <ol id="mathematics-steps" className={s.stepLinks} hidden={!mathematicsOpen}>{stepLabels.map((label, index) => <li key={label}><Link to={`/learn?topic=mathematics&step=${index + 1}`} aria-current={!isPlanned && step === index + 1 ? 'step' : undefined} onClick={selectStep}><span aria-hidden="true">{index + 1}</span>{label}</Link></li>)}</ol>
+          </div>
+          <div className={s.upcomingGroup}>
+            <button className={s.upcomingControl} type="button" aria-expanded={upcomingOpen} aria-controls="upcoming-topics" onClick={() => setUpcomingOpen(!upcomingOpen)}>Upcoming topics · 9 planned <span aria-hidden="true">{upcomingOpen ? '−' : '+'}</span></button>
+            <ol id="upcoming-topics" hidden={!upcomingOpen}>{roadmapConcepts.slice(1).map(concept => <li key={concept.slug}><span className={s.plannedTopic} aria-disabled="true"><span>{concept.id}</span><span>{concept.title}<small>Planned</small></span></span></li>)}</ol>
+          </div>
+        </nav>
         <p className={s.laterBlocks}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4M12 14v3"/></svg> More learning blocks later</p>
       </div>
     </aside>
-    <article className={s.lesson}>
-      <div className={s.lessonMeta}><p><b>Block 01</b><span>/</span>01 · Mathematics for AI</p>{!isPlanned && <div className={s.stepStatus}><span>Step {step} of 5</span><span className={s.stepDots} aria-hidden="true">{screens.map((_, index) => <i className={index + 1 === step ? s.activeDot : index + 1 < step ? s.pastDot : ''} key={index}/>)}</span></div>}</div>
+    <article className={s.lesson} data-step={step}>
+      <div className={s.lessonMeta} aria-label="Lesson context"><p><b>Block 01</b><span>/</span>Mathematics</p>{!isPlanned && <div className={s.stepStatus}><span>Step {step} of 5</span><span className={s.stepDots} aria-hidden="true">{screens.map((_, index) => <i className={index + 1 === step ? s.activeDot : ''} key={index}/>)}</span></div>}</div>
       {isPlanned ? <><h1 ref={headingRef} tabIndex={-1}>This topic is planned.</h1><p>Mathematics for AI is available to explore. More topics are being developed.</p><Link className={s.continueButton} to="/learn?topic=mathematics&step=1">Explore Mathematics for AI <Arrow/></Link></> : <>
         <h1 ref={headingRef} tabIndex={-1} className={step === 2 ? s.longTitle : ''}>{titles[step - 1]}</h1>
         <Screen/>

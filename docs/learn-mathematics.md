@@ -1,6 +1,6 @@
 # Learn — Block 01, Mathematics for AI
 
-This local review implements only the five approved Mathematics screens. The shared application header, Home availability messaging and Roadmap lesson statuses are intentionally unchanged for this batch.
+Learn implements the five approved Mathematics screens. Header, Home and Roadmap Mathematics entry links open the available topic; the other nine lessons remain planned.
 
 ## Routes and navigation
 
@@ -10,7 +10,10 @@ This local review implements only the five approved Mathematics screens. The sha
 - Other `topic` or `concept` values show planned-topic messaging with a working Mathematics link.
 - Back/Continue push router history. Refresh and browser Back/Forward restore the screen from the URL. Invalid step values safely show screen 1.
 - Each screen change focuses its h1 and resets the document scroll. Content scrolls naturally; no fixed lesson height crops it.
-- On small screens the inline topic navigation opens through a labelled button. Escape closes it and restores focus. Selecting Mathematics focuses the lesson heading, including when the current URL is already screen 1.
+- Mathematics is an expandable topic with five named step links; its control only expands/collapses the list. The current link uses `aria-current="step"`. Nine unavailable topics are grouped under an initially collapsed upcoming-topics control.
+- On small screens the inline topic navigation opens through a labelled button. Escape or closing the navigation restores trigger focus. Selecting a step closes the navigation and focuses its lesson heading, including when selecting the current step.
+- A compact sticky Mathematics / Step X of 5 context bar keeps orientation while reading. The application header scrolls normally; on mobile the sticky topic trigger sits above the context bar. Focus targets have local scroll margins.
+- Instructional paragraphs use at least 16px. The house image is restrained, the vector receives more space, supporting function examples use quieter surfaces, probability cases share equal track widths, and the recap uncertainty explanation and reflection have dedicated reading space.
 - The final Data Representation CTA is disabled, with an adjacent “Next topic planned” status. No account state, saved progress, completion counts, grading or lessons for other topics are implemented.
 
 ## Design and content rules
