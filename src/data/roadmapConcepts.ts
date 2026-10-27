@@ -84,7 +84,7 @@ export const roadmapConcepts: RoadmapConcept[] = [
     id: '04', slug: 'loss', order: 4, mapTitle: 'Loss', title: 'Loss', territory: 'learning', territoryLabel: 'LEARNING MECHANISM',
     tagline: 'A way to measure the mistake', icon: 'loss',
     body: ['A model can make a prediction.', 'But to learn, we need to know how far that prediction is from the actual outcome.', 'That is where loss comes in.', 'Loss turns the model’s mistake into a number we can measure.'],
-    visual: { kind: 'compare', items: [{ title: 'Prediction', value: '₹52L' }, { title: 'Actual value', value: '₹60L' }], result: 'Loss', note: 'A numerical measure of the error' },
+    visual: { kind: 'compare', items: [{ title: 'Prediction', value: '₹52L' }, { title: 'Actual value', value: '₹60L' }], result: 'Error', note: '₹8 lakh' },
     keyLabel: 'The important idea is:', keyText: ['Loss tells us how wrong the model’s prediction is.', 'A smaller loss generally means the prediction is closer to the outcome we wanted.'],
     deeper: ['Later, we will explore different loss functions and how they guide the learning process.'],
     nextConcept: 'gradient', lessonStatus: 'planned', learnRoute: '/learn?concept=loss',

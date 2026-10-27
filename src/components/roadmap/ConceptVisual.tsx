@@ -4,6 +4,7 @@ import { LineIcon } from '../Icons';
 import mathStyles from './MathematicsPreview.module.css';
 import dataStyles from './DataRepresentationPreview.module.css';
 import modelStyles from './ModelPreview.module.css';
+import lossStyles from './LossPreview.module.css';
 
 function VisualNode({ children, className = '', focus = false }: { children: ReactNode; className?: string; focus?: boolean }) {
   return <div className={`cv-node${focus ? ' cv-node-focus' : ''}${className ? ` ${className}` : ''}`}>{children}</div>;
@@ -86,10 +87,10 @@ function ModelVisual({ visual }: { visual: Extract<ConceptVisualData, { kind: 'm
 }
 
 function LossVisual({ visual }: { visual: Extract<ConceptVisualData, { kind: 'compare' }> }) {
-  return <figure className="concept-visual cv-loss" role="img" aria-label={`${visual.items.map((item) => `${item.title} ${item.value}`).join(' and ')} are compared to produce ${visual.result}, ${visual.note}.`}>
+  return <figure className={`concept-visual cv-loss ${lossStyles.diagram}`} role="img" aria-label={`${visual.items[0].title}: ${visual.items[0].value}. ${visual.items[1].title}: ${visual.items[1].value}. ${visual.result}: ${visual.note}.`}>
     <ConnectorLayer><path d="M42 27 C50 27 50 43 59 46" markerEnd={pathMarker()} /><path d="M42 73 C50 73 50 57 59 54" markerEnd={pathMarker()} /></ConnectorLayer>
     {visual.items.map((item, index) => <VisualNode key={item.title} className={`cv-loss-input cv-loss-input-${index + 1}`}><small>{item.title}</small><b>{item.value}</b></VisualNode>)}
-    <VisualNode focus className="cv-loss-result"><b>{visual.result}</b><small>{visual.note}</small></VisualNode>
+    <VisualNode focus className={`cv-loss-result ${lossStyles.result}`}><small>{visual.result}</small><b>{visual.note}</b></VisualNode>
   </figure>;
 }
 

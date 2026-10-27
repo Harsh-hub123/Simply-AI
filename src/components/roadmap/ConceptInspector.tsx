@@ -5,6 +5,7 @@ import { ConceptVisual } from './ConceptVisual';
 import mathStyles from './MathematicsPreview.module.css';
 import dataStyles from './DataRepresentationPreview.module.css';
 import modelStyles from './ModelPreview.module.css';
+import lossStyles from './LossPreview.module.css';
 
 interface ConceptInspectorProps {
   concept: RoadmapConcept;
@@ -22,6 +23,7 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
   const isMathematics = concept.slug === 'mathematics';
   const isDataRepresentation = concept.slug === 'data-representation';
   const isModel = concept.slug === 'model';
+  const isLoss = concept.slug === 'loss';
 
   useLayoutEffect(() => {
     readingRef.current?.scrollTo({ top: 0, behavior: 'instant' });
@@ -75,6 +77,7 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
               {concept.body.length > 4 && <details className="concept-full-explanation"><summary>Read the full explanation</summary>{concept.body.slice(2).map((paragraph, index) => <p className={concept.accentParagraph === index + 2 ? 'accent-copy' : ''} key={paragraph}>{paragraph}</p>)}</details>}
             </div>
             <ConceptVisual visual={concept.visual}/>
+            {isLoss && <p className={lossStyles.supportingNote}>We’ll explore different ways to measure a model’s error as we go deeper.</p>}
             <section className="key-idea" aria-label="Key idea">
               <h4>{concept.keyLabel}</h4>
               {concept.keyText.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
@@ -86,7 +89,8 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
               <div className={dataStyles.continuation}>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
               <p className={dataStyles.closingQuestion}>Once the information is represented, what turns it into a prediction?</p>
             </> : isModel ? <p className={modelStyles.closingQuestion}>How do we measure how far a prediction is from the actual outcome?</p>
-              : <section className="deeper-copy" aria-label="In more detail"><h4>In more detail</h4>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>}
+              : isLoss ? <section className={lossStyles.transition} aria-label="What comes next"><h4>What comes next</h4><p>Training aims to reduce this loss. How can we tell which changes inside the model would help?</p></section>
+                : <section className="deeper-copy" aria-label="In more detail"><h4>In more detail</h4>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>}
           </div>
         </div>
       </div>

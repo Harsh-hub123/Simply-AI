@@ -1,0 +1,38 @@
+.supportingNote {
+  margin: -4px 0 18px;
+  color: var(--muted);
+  font: 400 14px/1.5 var(--sans);
+}
+
+.diagram .result { gap: 5px; }
+.diagram .result small {
+  color: #e2c992;
+  font: 500 13px/1.35 var(--sans);
+}
+.diagram .result b {
+  color: #f0c55f;
+  font: 650 21px/1.2 var(--sans);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.transition {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.transition h4 {
+  margin: 0 0 8px;
+  color: var(--cyan-soft);
+  font: 600 13px/1.35 var(--sans);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.transition p {
+  margin: 0;
+  color: var(--paper);
+  font: 400 16px/1.5 var(--sans);
+}
+
+@media (max-width: 820px) {
+  .supportingNote { font-size: 15px; }
+}
