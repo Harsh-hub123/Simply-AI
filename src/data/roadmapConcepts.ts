@@ -10,7 +10,7 @@ export type ConceptVisual =
   | { kind: 'layers'; steps: string[] }
   | { kind: 'representations'; steps: Array<{ title: string; note?: string }> }
   | { kind: 'branch'; source: string; model: string; taskLabel: string; tasks: string[] }
-  | { kind: 'system'; entry: string; core: string; parts: string[]; result: string };
+  | { kind: 'system'; entry: string; core: string; model: string; supporting: Array<{ label: string; description: string }>; result: string; caption: string };
 
 export interface RoadmapConcept {
   id: string;
@@ -137,10 +137,10 @@ export const roadmapConcepts: RoadmapConcept[] = [
   {
     id: '10', slug: 'modern-ai-systems', order: 10, mapTitle: 'Modern\nAI Systems', title: 'Modern AI Systems', territory: 'modern-ai', territoryLabel: 'MODERN AI',
     tagline: 'More than just a model', icon: 'system',
-    body: ['A powerful AI model can generate predictions, text, images, code, and reasoning.', 'But a real AI product usually needs much more than the model itself.', 'Modern AI systems combine models with data, tools, memory, retrieval, APIs, interfaces, and orchestration so the system can do useful work in the real world.'],
-    visual: { kind: 'system', entry: 'User / Application', core: 'AI System', parts: ['Model', 'Data', 'Tools', 'Memory', 'Retrieval'], result: 'Actions / Responses' },
-    keyLabel: 'The important idea is:', keyText: ['The model is only one component inside a complete AI system.', 'What makes the product useful is how all of these components work together.'],
-    deeper: ['Later, we will explore RAG, agents, tool use, orchestration, deployment, monitoring, and how production AI systems are actually built.'],
+    body: ['An AI model can make predictions or generate content such as text, images and code.', 'Turning these capabilities into a useful product often requires more than the model alone.', 'An AI system brings the model together with the data, tools and software needed for a task. This may include retrieval to find information, memory to retain context, APIs to take actions, and an interface for people to use.'],
+    visual: { kind: 'system', entry: 'User request', core: 'AI System', model: 'Model', supporting: [{ label: 'Data & retrieval', description: 'Find relevant information' }, { label: 'Memory', description: 'Retain context' }, { label: 'Tools & APIs', description: 'Perform actions' }], result: 'Response or action', caption: 'Components depend on the task.' },
+    keyLabel: 'The core idea', keyText: ['The model is one part of an AI system. The product’s usefulness depends on how well the parts work together.'],
+    deeper: ['We’ll explore RAG, agents and tool use, then see how AI systems are connected, deployed and monitored in the real world.'],
     lessonStatus: 'planned', learnRoute: '/learn?concept=modern-ai-systems',
   },
 ];

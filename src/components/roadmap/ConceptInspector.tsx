@@ -28,7 +28,7 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
   const isGradient = concept.slug === 'gradient';
   const isOptimization = concept.slug === 'optimization';
   const isNeuralNetworks = concept.slug === 'neural-networks';
-  const usesMoreToExplore = isOptimization || isNeuralNetworks || concept.slug === 'representation-learning' || concept.slug === 'modern-ai-models';
+  const usesMoreToExplore = isOptimization || isNeuralNetworks || concept.slug === 'representation-learning' || concept.slug === 'modern-ai-models' || concept.slug === 'modern-ai-systems';
   const hasCollapsedExplanation = concept.body.length > 4 && !isGradient;
 
   useLayoutEffect(() => {

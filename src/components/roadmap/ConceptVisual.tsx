@@ -7,6 +7,7 @@ import modelStyles from './ModelPreview.module.css';
 import lossStyles from './LossPreview.module.css';
 import optimizationStyles from './OptimizationPreview.module.css';
 import neuralStyles from './NeuralNetworksPreview.module.css';
+import systemStyles from './ModernAISystemsPreview.module.css';
 
 function VisualNode({ children, className = '', focus = false }: { children: ReactNode; className?: string; focus?: boolean }) {
   return <div className={`cv-node${focus ? ' cv-node-focus' : ''}${className ? ` ${className}` : ''}`}>{children}</div>;
@@ -146,11 +147,21 @@ function BranchVisual({ visual }: { visual: Extract<ConceptVisualData, { kind: '
 }
 
 function SystemVisual({ visual }: { visual: Extract<ConceptVisualData, { kind: 'system' }> }) {
-  return <figure className="concept-visual cv-system" role="img" aria-label={`${visual.entry} connects to ${visual.core}, containing ${visual.parts.join(', ')}, producing ${visual.result}.`}>
-    <ConnectorLayer><path d="M50 21 V30" markerEnd={pathMarker()} /><path d="M50 76 V85" markerEnd={pathMarker()} /></ConnectorLayer>
-    <VisualNode className="cv-system-entry">{visual.entry}</VisualNode>
-    <div className="cv-system-boundary"><strong>{visual.core}</strong><div>{visual.parts.map((part) => <span key={part}>{part}</span>)}</div></div>
-    <VisualNode focus className="cv-system-result">{visual.result}</VisualNode>
+  const supportIcons = ['book', 'brain', 'sliders'] as const;
+  return <figure className={`concept-visual cv-system ${systemStyles.diagram}`} role="img" aria-label={`${visual.entry} enters an ${visual.core}, where the ${visual.model} is supported as needed by ${visual.supporting.map((item) => `${item.label} to ${item.description.toLowerCase()}`).join(', ')}, producing a ${visual.result}. ${visual.caption}`}>
+    <VisualNode className={systemStyles.endpoint}>{visual.entry}</VisualNode>
+    <svg className={systemStyles.primaryArrow} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v18m-5-5 5 5 5-5"/></svg>
+    <div className={systemStyles.boundary}>
+      <strong className={systemStyles.systemLabel}>{visual.core}</strong>
+      <VisualNode className={systemStyles.model}><LineIcon name="network"/><span>{visual.model}</span></VisualNode>
+      <div className={systemStyles.relationshipStem} aria-hidden="true"/>
+      <div className={systemStyles.supports}>
+        {visual.supporting.map((item,index)=><div className={systemStyles.support} key={item.label}><LineIcon name={supportIcons[index]}/><span><b>{item.label}</b><small>{item.description}</small></span></div>)}
+      </div>
+    </div>
+    <svg className={systemStyles.primaryArrow} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v18m-5-5 5 5 5-5"/></svg>
+    <VisualNode focus className={systemStyles.endpoint}>{visual.result}</VisualNode>
+    <figcaption className={systemStyles.caption}>{visual.caption}</figcaption>
   </figure>;
 }
 

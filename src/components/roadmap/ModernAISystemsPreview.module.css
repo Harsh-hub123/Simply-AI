@@ -1,0 +1,116 @@
+.diagram:global(.concept-visual) {
+  height: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px;
+  overflow: visible;
+}
+
+.diagram .endpoint {
+  position: relative;
+  inset: auto;
+  width: min(100%, 230px);
+  min-height: 44px;
+  padding: 10px 14px;
+  font: 600 15px/1.3 var(--sans);
+}
+
+.primaryArrow {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  color: var(--cyan);
+}
+
+.boundary {
+  width: 100%;
+  padding: 13px 14px 15px;
+  border: 1px solid rgba(222, 168, 56, .72);
+  border-radius: 12px;
+  background: rgba(18, 30, 32, .52);
+  box-shadow: inset 0 0 20px rgba(222, 161, 51, .05);
+}
+
+.systemLabel {
+  display: block;
+  margin-bottom: 10px;
+  color: #efc35d;
+  font: 700 16px/1.2 var(--display);
+}
+
+.diagram .model {
+  position: relative;
+  inset: auto;
+  width: min(100%, 230px);
+  min-height: 56px;
+  margin-inline: auto;
+  flex-direction: row;
+  gap: 9px;
+  font: 600 16px/1.2 var(--sans);
+}
+
+.model svg,
+.support svg { width: 22px; height: 22px; flex: 0 0 auto; color: var(--cyan); }
+
+.relationshipStem {
+  width: calc(50% - 7px);
+  height: 14px;
+  margin-left: 7px;
+  border-right: 1px solid rgba(74, 188, 207, .58);
+  border-bottom: 1px solid rgba(74, 188, 207, .58);
+}
+
+.supports {
+  position: relative;
+  display: grid;
+  gap: 7px;
+  padding-left: 22px;
+}
+
+.supports::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 15%;
+  width: 1px;
+  background: rgba(74, 188, 207, .58);
+}
+
+.support {
+  position: relative;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  border: 1px solid rgba(34, 215, 230, .38);
+  border-radius: 7px;
+  background: rgba(5, 43, 55, .43);
+  text-align: left;
+}
+
+.support::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  width: 15px;
+  height: 1px;
+  background: rgba(74, 188, 207, .58);
+}
+
+.support span { min-width: 0; display: grid; gap: 2px; }
+.support b { color: #dce5e8; font: 600 13px/1.25 var(--sans); }
+.support small { color: var(--muted); font: 400 12px/1.3 var(--sans); }
+.caption { margin-top: 3px; color: var(--muted); font: 400 12.5px/1.4 var(--sans); }
+
+@media (max-width: 480px) {
+  .diagram:global(.concept-visual) { padding: 13px 11px; }
+  .boundary { padding-inline: 11px; }
+  .supports { padding-left: 19px; }
+  .support { padding-inline: 9px; }
+}
