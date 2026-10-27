@@ -28,6 +28,7 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
   const isGradient = concept.slug === 'gradient';
   const isOptimization = concept.slug === 'optimization';
   const isNeuralNetworks = concept.slug === 'neural-networks';
+  const usesMoreToExplore = isOptimization || isNeuralNetworks || concept.slug === 'representation-learning' || concept.slug === 'modern-ai-models';
   const hasCollapsedExplanation = concept.body.length > 4 && !isGradient;
 
   useLayoutEffect(() => {
@@ -98,7 +99,7 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
             </> : isModel ? <p className={modelStyles.closingQuestion}>How do we measure how far a prediction is from the actual outcome?</p>
               : isLoss ? <section className={lossStyles.transition} aria-label="What comes next"><h4>What comes next</h4><p>Training aims to reduce this loss. How can we tell which changes inside the model would help?</p></section>
                 : isGradient ? <section className="deeper-copy" aria-label="Looking ahead"><h4>Looking ahead</h4><p>This is just the starting point. We’ll revisit gradients later to understand their role in training modern AI models.</p></section>
-                : <section className="deeper-copy" aria-label={isOptimization || isNeuralNetworks ? 'More to explore' : 'In more detail'}><h4>{isOptimization || isNeuralNetworks ? 'More to explore' : 'In more detail'}</h4>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>}
+                : <section className="deeper-copy" aria-label={usesMoreToExplore ? 'More to explore' : 'In more detail'}><h4>{usesMoreToExplore ? 'More to explore' : 'In more detail'}</h4>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>}
           </div>
         </div>
       </div>
