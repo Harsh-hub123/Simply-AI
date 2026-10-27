@@ -8,9 +8,9 @@
 
 | Window | Status | What it does |
 | --- | --- | --- |
-| Home | Implemented | Introduces the learning approach and interactive AI systems network; Explore the Map is the primary action and Learn is labeled coming soon. |
+| Home | Implemented | Introduces the learning approach and interactive AI systems network; Explore the Map is the primary action and Mathematics for AI is available from Start Learning. |
 | Roadmap | Implemented | Shows ten concepts across four territories, a primary learning path, related connections, and a concept inspector with a distinct mini visual for each concept. |
-| Learn | Planned | Visible in navigation with a Planned label; its direct page explains that lessons are being developed and links to Roadmap. |
+| Learn | Partially implemented | Mathematics for AI is available as a five-screen topic; the other nine topics remain planned. |
 | Support | Planned | Removed from primary navigation; its direct route explains that Support resources are not available yet and links to Home. |
 
 The Roadmap sequence is Mathematics → Data Representation → Model → Loss → Gradient → Optimization → Neural Networks → Representation Learning → Modern AI Models → Modern AI Systems. Concept content, ordering, territories, mini-visual data, and destination links live in [`src/data/roadmapConcepts.ts`](src/data/roadmapConcepts.ts).
@@ -47,10 +47,10 @@ The app uses React Router. Local development uses browser-history URLs; the GitH
 | Home | `/` | `/#/` |
 | Roadmap | `/roadmap` | `/#/roadmap` |
 | Selected Roadmap concept | `/roadmap?concept=gradient` | `/#/roadmap?concept=gradient` |
-| Learn placeholder | `/learn` | `/#/learn` |
+| Mathematics for AI | `/learn?topic=mathematics&step=1` | `/#/learn?topic=mathematics&step=1` |
 | Support placeholder | `/support` | `/#/support` |
 
-The Home network's major concepts link directly to their Roadmap inspector through `?concept=<slug>`. On Roadmap, selecting a node updates that query parameter; a valid direct link opens its inspector. An unknown slug leaves the map in its default state. The inspector's **Connects next** control selects the next concept. All ten concepts currently show a noninteractive **Lesson planned** status. Closing the inspector clears the query parameter. Escape also closes it.
+The Home network's major concepts link directly to their Roadmap inspector through `?concept=<slug>`. On Roadmap, selecting a node updates that query parameter; a valid direct link opens its inspector. An unknown slug leaves the map in its default state. The inspector's **Connects next** control selects the next concept. Mathematics links to its available Learn topic; the other nine concepts show a noninteractive **Lesson planned** status. Closing the inspector clears the query parameter. Escape also closes it.
 
 On narrow screens, the map scrolls horizontally and brings a selected node into view. Its inspector becomes a scrollable modal bottom sheet. The map and header are inert while the sheet is open, focus stays in the sheet, and focus returns to the opening node when it closes.
 
@@ -143,8 +143,8 @@ Open the preview URL with `/#/` appended. The published site is public and stati
 | Local port 5173 is in use | Open the alternate URL Vite prints. |
 | A published deep link does not open | Use the hash form, such as `https://harsh-hub123.github.io/Simply-AI/#/roadmap?concept=gradient`. |
 | A new commit is not visible on Pages | Check the latest run in **GitHub → Actions** and the Pages source setting. Then refresh the browser. |
-| Learn or Support shows a simple message | Those routes are intentionally placeholders in the current build. |
+| A Learn topic shows a planned message | Mathematics for AI is currently available; the other nine topics are intentionally planned. |
 
 ## Current scope
 
-Simply AI is a frontend prototype focused on the Home and Roadmap learning experience. Lessons, progress tracking, accounts, search, and Support content are not implemented. The current repository has no backend services and no automated test suite.
+Simply AI is a frontend prototype with Home, Roadmap and the five-screen Mathematics for AI topic implemented. The other lessons, progress tracking, accounts, search, and Support content are not implemented. The current repository has no backend services and no automated test suite.

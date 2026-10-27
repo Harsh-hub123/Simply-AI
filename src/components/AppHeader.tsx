@@ -4,7 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 const links = [
   { to: '/', label: 'Home' },
   { to: '/roadmap', label: 'Roadmap' },
-  { to: '/learn', label: 'Learn', availability: 'Planned' },
+  { to: '/learn', label: 'Learn' },
 ];
 
 export function AppHeader() {
@@ -49,7 +49,6 @@ export function AppHeader() {
           {links.map((link) => (
             <NavLink key={link.to} to={link.to} end={link.to === '/'}>
               {link.label}
-              {link.availability && <small className="nav-availability">{link.availability}</small>}
             </NavLink>
           ))}
         </nav>

@@ -20,7 +20,7 @@ export function HomeHero() {
         </div>
         <div className="hero-actions">
           <Link className="cta cta-primary" to="/roadmap"><LineIcon name="map" /> Explore the Map <span aria-hidden="true">→</span></Link>
-          <Link className="cta cta-secondary cta-availability" to="/learn">Learn — coming soon</Link>
+          <Link className="cta cta-secondary" to="/learn?topic=mathematics&step=1">Start Learning</Link>
         </div>
       </div>
       <div className="hero-visual">

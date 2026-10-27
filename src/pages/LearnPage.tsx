@@ -72,7 +72,7 @@ function ScreenFour() {
       <Numbered number={2} title="This is where probability becomes useful."><p>Probability helps us describe uncertainty by showing how likely different outcomes appear to be.</p><div className={s.cases}><div><b>Case A</b><Bars values={[["Cat", 99], ["Dog", 1]]}/></div><div><b>Case B</b><Bars values={[["Cat", 51], ["Dog", 49]]}/></div></div><p>Both cases would lead to the prediction Cat.<br/>But they are clearly not telling us the same thing.<br/><strong className={s.goldText}>The prediction is the same. The uncertainty is not.</strong><br/>That is why probability matters.</p></Numbered>
     </div>
     <div className={s.fullDetail}><Numbered number={3} title="Why does this matter in AI?"><p>Real-world information can be incomplete, noisy, ambiguous or unfamiliar. So AI systems often have to make predictions without perfect information.<br/><strong className={s.goldText}>Probability gives us a mathematical language for uncertainty.</strong> A high probability does not guarantee that a prediction is correct.</p></Numbered></div>
-    <MentalModel><strong className={s.goldText}>AI makes predictions, not guarantees.</strong><span className={s.mentalSupporting}>Probability helps us describe how strongly different outcomes are supported when the answer is uncertain.</span></MentalModel>
+    <MentalModel><strong className={s.goldText}>AI makes predictions, not guarantees.</strong><span className={s.mentalSupporting}>Probability helps us describe how strongly different outcomes are supported when we are uncertain.</span></MentalModel>
   </>;
 }
 
@@ -80,7 +80,7 @@ function ScreenFive() {
   return <>
     <p className={s.summaryIntro}>We have seen four important roles mathematics plays in AI. Together, they give AI a precise language<br className={s.wideOnly}/> for working with information, relationships, change and uncertainty.</p>
     <BigPicture/>
-    <div className={s.reflections}><aside><LineIcon name="feedback"/><div><h2>You don’t need to master the formulas yet.</h2><p>At this stage, the important thing is that when mathematics appears later in AI, it no longer feels disconnected. You now know why it is there.</p></div></aside><aside><LineIcon name="why"/><div><p>Before moving on, can you explain in your own words why AI needs mathematics?</p><p className={s.thinkingPrompt}>Take a moment to think about it...</p></div></aside></div>
+    <div className={s.reflections}><aside><LineIcon name="feedback"/><div><h2>You don’t need to master the formulas yet.</h2><p>At this stage, the important thing is that when mathematics appears later in AI, it no longer feels disconnected. You know why it is there.</p></div></aside><aside><LineIcon name="why"/><div><p>Before moving on, can you explain in your own words why AI needs mathematics?</p><p className={s.thinkingPrompt}>Take a moment to think about it...</p></div></aside></div>
     <MentalModel final><mark>Mathematics gives AI a precise language</mark> for working with information, relationships, change and uncertainty.</MentalModel>
   </>;
 }

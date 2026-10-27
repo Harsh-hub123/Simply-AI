@@ -54,7 +54,7 @@ export const roadmapConcepts: RoadmapConcept[] = [
     keyLabel: 'The goal here is not to master every formula first.',
     keyText: ['It is to understand why mathematical ideas keep appearing throughout AI and what each one helps us describe.'],
     deeper: ['Later, we will go much deeper into the mathematics as each concept becomes necessary.'],
-    nextConcept: 'data-representation', lessonStatus: 'planned', learnRoute: '/learn?concept=mathematics',
+    nextConcept: 'data-representation', lessonStatus: 'available', learnRoute: '/learn?topic=mathematics&step=1',
   },
   {
     id: '02', slug: 'data-representation', order: 2, mapTitle: 'Data\nRepresentation', title: 'Data Representation',
