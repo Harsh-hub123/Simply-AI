@@ -6,6 +6,7 @@ import mathStyles from './MathematicsPreview.module.css';
 import dataStyles from './DataRepresentationPreview.module.css';
 import modelStyles from './ModelPreview.module.css';
 import lossStyles from './LossPreview.module.css';
+import neuralStyles from './NeuralNetworksPreview.module.css';
 
 interface ConceptInspectorProps {
   concept: RoadmapConcept;
@@ -25,6 +26,8 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
   const isModel = concept.slug === 'model';
   const isLoss = concept.slug === 'loss';
   const isGradient = concept.slug === 'gradient';
+  const isOptimization = concept.slug === 'optimization';
+  const isNeuralNetworks = concept.slug === 'neural-networks';
   const hasCollapsedExplanation = concept.body.length > 4 && !isGradient;
 
   useLayoutEffect(() => {
@@ -82,7 +85,9 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
             {isLoss && <p className={lossStyles.supportingNote}>We’ll explore different ways to measure a model’s error as we go deeper.</p>}
             <section className="key-idea" aria-label="Key idea">
               <h4>{concept.keyLabel}</h4>
-              {concept.keyText.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              {concept.keyText.map((paragraph, index) => isNeuralNetworks && index === 2
+                ? <ol className={neuralStyles.trainingLoop} key={paragraph} aria-label="Training loop">{paragraph.split(' → ').map((step) => <li key={step}>{step}</li>)}</ol>
+                : <p key={paragraph}>{paragraph}</p>)}
             </section>
             {isMathematics ? <>
               <div className={mathStyles.continuation}>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
@@ -93,7 +98,7 @@ export function ConceptInspector({ concept, isMobile, onClose, onSelect }: Conce
             </> : isModel ? <p className={modelStyles.closingQuestion}>How do we measure how far a prediction is from the actual outcome?</p>
               : isLoss ? <section className={lossStyles.transition} aria-label="What comes next"><h4>What comes next</h4><p>Training aims to reduce this loss. How can we tell which changes inside the model would help?</p></section>
                 : isGradient ? <section className="deeper-copy" aria-label="Looking ahead"><h4>Looking ahead</h4><p>This is just the starting point. We’ll revisit gradients later to understand their role in training modern AI models.</p></section>
-                : <section className="deeper-copy" aria-label="In more detail"><h4>In more detail</h4>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>}
+                : <section className="deeper-copy" aria-label={isOptimization || isNeuralNetworks ? 'More to explore' : 'In more detail'}><h4>{isOptimization || isNeuralNetworks ? 'More to explore' : 'In more detail'}</h4>{concept.deeper.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>}
           </div>
         </div>
       </div>

@@ -5,6 +5,8 @@ import mathStyles from './MathematicsPreview.module.css';
 import dataStyles from './DataRepresentationPreview.module.css';
 import modelStyles from './ModelPreview.module.css';
 import lossStyles from './LossPreview.module.css';
+import optimizationStyles from './OptimizationPreview.module.css';
+import neuralStyles from './NeuralNetworksPreview.module.css';
 
 function VisualNode({ children, className = '', focus = false }: { children: ReactNode; className?: string; focus?: boolean }) {
   return <div className={`cv-node${focus ? ' cv-node-focus' : ''}${className ? ` ${className}` : ''}`}>{children}</div>;
@@ -104,18 +106,24 @@ function GradientVisual({ visual }: { visual: Extract<ConceptVisualData, { kind:
 }
 
 function FeedbackVisual({ visual }: { visual: Extract<ConceptVisualData, { kind: 'feedback' }> }) {
-  return <figure className="concept-visual cv-feedback" role="img" aria-label={`${visual.steps.join(' to ')}, then ${visual.repeat}.`}>
-    <ConnectorLayer><path d="M36 24 H64" markerEnd={pathMarker()} /><path d="M76 35 V65" markerEnd={pathMarker()} /><path d="M64 76 H36" markerEnd={pathMarker()} /><path className="cv-loop-path" d="M24 65 V35" markerEnd={pathMarker()} /></ConnectorLayer>
+  return <figure className={`concept-visual cv-feedback ${optimizationStyles.diagram}`} role="img" aria-label={`${visual.steps.join(' to ')}, then repeat from Update Parameters to Prediction.`}>
+    <ConnectorLayer><path d="M38.5 24 H61.5" markerEnd={pathMarker()} /><path d="M76 37 V63" markerEnd={pathMarker()} /><path d="M61.5 76 H40" markerEnd={pathMarker()} /><path className="cv-loop-path" d="M24 63 V37" markerEnd={pathMarker()} /></ConnectorLayer>
     <VisualNode className="cv-feedback-step cv-feedback-step-1">{visual.steps[0]}</VisualNode><VisualNode className="cv-feedback-step cv-feedback-step-2">{visual.steps[1]}</VisualNode><VisualNode className="cv-feedback-step cv-feedback-step-3">{visual.steps[2]}</VisualNode><VisualNode focus className="cv-feedback-step cv-feedback-step-4">{visual.steps[3]}</VisualNode>
     <span className="cv-repeat-label">{visual.repeat}</span>
   </figure>;
 }
 
 function LayersVisual({ visual }: { visual: Extract<ConceptVisualData, { kind: 'layers' }> }) {
-  return <figure className="concept-visual cv-layers" role="img" aria-label={visual.steps.join(' through ')}>
-    <ConnectorLayer>{[[18, 22], [38, 42], [58, 62], [78, 79]].map(([from, to]) => <path key={from} d={`M${from} 50 H${to}`} markerEnd={pathMarker()} />)}</ConnectorLayer>
-    <ConnectorLayer mobile>{[18, 35, 52, 69].map((y) => <path key={y} d={`M50 ${y} V${y + 4}`} markerEnd={pathMarker(true)} />)}</ConnectorLayer>
-    {visual.steps.map((step, index) => <VisualNode key={step} focus={index === visual.steps.length - 1} className={`cv-layer cv-layer-${index + 1}${index > 0 && index < visual.steps.length - 1 ? ' cv-learned-layer' : ''}`}>{step}</VisualNode>)}
+  const arrow = <svg className={neuralStyles.arrow} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v18m-5-5 5 5 5-5"/></svg>;
+  return <figure className={`concept-visual cv-layers ${neuralStyles.diagram}`} role="img" aria-label="Input flows into a Neural Network through Layer 1, Layer 2 and Layer 3 in sequence, then leaves the network as a Prediction.">
+    <VisualNode className={neuralStyles.node}>{visual.steps[0]}</VisualNode>
+    {arrow}
+    <div className={neuralStyles.network}>
+      <strong>Neural Network</strong>
+      {visual.steps.slice(1, -1).map((step, index) => <div className={neuralStyles.layerStep} key={step}>{index > 0 && arrow}<VisualNode className={neuralStyles.node}>{step}</VisualNode></div>)}
+    </div>
+    {arrow}
+    <VisualNode focus className={neuralStyles.node}>{visual.steps[visual.steps.length - 1]}</VisualNode>
   </figure>;
 }
 
