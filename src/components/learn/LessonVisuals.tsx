@@ -5,14 +5,19 @@ export const lessonImage = (name: string) => `${import.meta.env.BASE_URL}images/
 
 export function Arrow() { return <span className={s.arrow} aria-hidden="true">→</span>; }
 
-export function Matrix({ compact = false }: { compact?: boolean }) {
+export function Matrix({ compact = false, detailed = false }: { compact?: boolean; detailed?: boolean }) {
   return <table className={`${s.matrix} ${compact ? s.compactMatrix : ''}`} aria-label="House examples: size, bedrooms and age">
-    <thead><tr><th scope="col">Size</th><th scope="col">Bedrooms</th><th scope="col">Age</th></tr></thead>
+    <thead><tr><th scope="col">{detailed ? 'Size (sq ft)' : 'Size'}</th><th scope="col">Bedrooms</th><th scope="col">{detailed ? 'Age (years)' : 'Age'}</th></tr></thead>
     <tbody>{[[1200, 3, 8], [900, 2, 4], [1500, 4, 6]].map((row, index) => <tr key={row[0]} className={index === 0 ? s.highlightRow : ''}>{row.map((value, col) => <td key={col}>{index === 0 && col === 2 ? <mark>{value}</mark> : value}</td>)}</tr>)}</tbody>
   </table>;
 }
 
-export function Vector() { return <div className={s.vector} aria-label="Vector: 1200, 3, 8"><span aria-hidden="true">[</span><span>1200,</span><span>3,</span><mark>8</mark><span aria-hidden="true">]</span></div>; }
+export function Vector({ labeled = false }: { labeled?: boolean }) {
+  if (labeled) return <div className={s.labeledVector} role="img" aria-label="Vector: 1200, 3, 8. Size, Bedrooms, Age.">
+    <span aria-hidden="true">[</span><span>1200,<small>Size</small></span><span>3,<small>Bedrooms</small></span><mark>8<small>Age</small></mark><span aria-hidden="true">]</span>
+  </div>;
+  return <div className={s.vector} aria-label="Vector: 1200, 3, 8"><span aria-hidden="true">[</span><span>1200,</span><span>3,</span><mark>8</mark><span aria-hidden="true">]</span></div>;
+}
 
 export function Bars({ values = [['Cat', 58], ['Dog', 37], ['Fox', 5]] }: { values?: Array<[string, number]> }) {
   return <dl className={s.bars}>{values.map(([name, value]) => <div key={name}><dt>{name}</dt><dd><span className={s.track} aria-hidden="true"><span className={name === 'Dog' ? s.dogBar : name === 'Fox' ? s.foxBar : ''} style={{ width: `${value}%` }}/></span><span>{value}%</span></dd></div>)}</dl>;
