@@ -430,3 +430,42 @@
   .exampleCard:last-child { grid-column: auto; }
   .lessonFooter .nextQuestion { font-size: 16px; }
 }
+
+/* Screens 3 and 4 follow a downward sequence, with visuals inside their explanation. */
+.readingIntro { max-width: 75ch; }
+.readingSections { margin-top: 26px; }
+.readingSections > .numbered { padding-block: 24px; border-top: 1px solid var(--learn-border); }
+.readingSections > .numbered > div { min-width: 0; }
+.readingSections .numbered h2 { margin-bottom: 16px; }
+.readingSections .numbered p { max-width: 75ch; }
+.lesson[data-step="3"] .readingSections > .numbered:first-child > div { max-width: 75ch; }
+.readingSections .flow { justify-content: flex-start; margin-block: 10px 18px; }
+.readingSections .flowNode, .readingSections .inlineExample { border-color: rgba(20, 151, 183, .25); background: rgba(3, 26, 39, .25); }
+.changeGroup { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.4fr); align-items: start; gap: 28px; margin-bottom: 20px; }
+.changeGroup > div { min-width: 0; }
+.changeGroup .inlineExample { margin: 8px 0 18px; }
+.changeGroup .functionVisual .flowNode { border-color: var(--learn-border); background: var(--learn-raised); }
+.predictionGroup { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 26px; align-items: start; }
+.predictionGroup > div { min-width: 0; }
+.predictionGroup .predictionVisual { display: grid; grid-template-columns: 140px minmax(0, 1fr); align-items: start; width: 100%; max-width: none; margin: 0 !important; }
+.predictionGroup .predictionVisual > img { width: 140px; height: auto; min-height: 0; max-height: 210px; object-fit: contain; }
+.predictionGroup .predictionVisual > div { padding: 14px; }
+.predictionGroup .predictionComparison { grid-template-columns: 1fr; }
+.predictionGroup .predictionComparison > strong { justify-content: start; font-size: 16px; }
+.readingSections .cases { max-width: 900px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-block: 16px; gap: 22px; }
+.readingSections .cases + p { max-width: 75ch; }
+@media (max-width: 1120px) {
+  .changeGroup, .predictionGroup { grid-template-columns: 1fr; gap: 18px; }
+  .changeGroup .functionVisual { max-width: 660px; }
+  .predictionGroup .predictionVisual { max-width: 620px; }
+  .predictionGroup .predictionComparison { grid-template-columns: 1.2fr 1fr; max-width: 620px; }
+}
+@media (max-width: 600px) {
+  .readingSections .cases { grid-template-columns: 1fr; gap: 16px; }
+  .predictionGroup .predictionComparison { grid-template-columns: 1fr; }
+  .readingSections > .numbered { padding-block: 20px; }
+}
+@media (max-width: 480px) {
+  .predictionGroup .predictionVisual { grid-template-columns: 1fr; }
+  .predictionGroup .predictionVisual > img { width: 120px; max-height: 180px; margin: 14px 14px 0; }
+}
