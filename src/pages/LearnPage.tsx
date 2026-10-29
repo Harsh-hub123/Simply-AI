@@ -2,14 +2,14 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { roadmapConcepts } from '../data/roadmapConcepts';
 import { LineIcon } from '../components/Icons';
-import { Arrow, Bars, BigPicture, Flow, FunctionVisual, InformationVisual, lessonImage, Matrix, PredictionVisual, Vector } from '../components/learn/LessonVisuals';
+import { Arrow, Bars, BigPicture, InformationVisual, lessonImage, Matrix, PredictionVisual, Vector } from '../components/learn/LessonVisuals';
 import s from '../components/learn/Learn.module.css';
 
-const titles = [<>Why does AI need <mark>mathematics</mark>?</>, <>How do we organize information for an AI model?</>, <>Mathematics helps us describe <mark>relationships</mark> and <mark>change.</mark></>, <>A prediction is <mark>not the truth.</mark></>, <>The <mark>big picture.</mark></>];
+const titles = [<>Why does AI need <mark>mathematics</mark>?</>, <>How do we <mark>organize information</mark> for an AI model?</>, <>Understanding <mark>relationships and change</mark></>, <>A prediction is <mark>not the truth.</mark></>, <>The <mark>big picture.</mark></>];
 const nextCopy = [
   ['Numbers are useful. But one number cannot describe everything.', 'So how can mathematics organize many pieces of information together?'],
   ['Now we can organize information mathematically. But AI is not only about storing numbers.', 'How can mathematics help us describe relationships and change?'],
-  ['We can now use mathematics to: organize information · describe relationships · understand change', 'But not every prediction is completely certain.', 'How can mathematics help us reason when there is uncertainty?'],
+  ['Mathematics helps us organize information, describe relationships and understand change.', 'But how does it help when the answer is uncertain?'],
   ["We’ve now met four different roles mathematics plays in AI.", 'Let’s put the whole picture together.'],
   ['You now have the language. But there is still an important question:', 'How does the real world become something a model can work with?'],
 ];
@@ -40,28 +40,118 @@ function ScreenOne() {
   </>;
 }
 
+function HouseDetailIcon({ name }: { name: 'size' | 'bedrooms' | 'age' }) {
+  const paths = {
+    size: <><path d="m2 11 10-8 10 8M5 9v12h14V9M9 21v-7h6v7"/></>,
+    bedrooms: <><path d="M3 4v17M3 14h18v7M3 10h7a3 3 0 0 1 3 3v1M13 11h6a2 2 0 0 1 2 2v1"/></>,
+    age: <><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M8 14h1M12 14h1M16 14h1M8 18h1M12 18h1"/></>,
+  };
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
+}
+
 function ScreenTwo() {
-  return <>
-    <div className={`${s.twoColumns} ${s.houseIntro}`}><div><p>Imagine building a model that estimates house prices. To make a prediction, it can use details such as:</p><p className={s.houseDetails}>Size: 1,200 sq ft · Bedrooms: 3 · Age: 8 years</p><p>Mathematics gives us ways to organize these numbers. Let’s start with a single value.</p></div><img className={s.housePhoto} src={lessonImage('house')} alt="A modern house, representing one example with size, bedrooms and age"/></div>
-    <div className={s.teachingSections}>
-      <section className={s.teachingSection} aria-labelledby="scalar-heading"><h2 id="scalar-heading">1. A scalar: one number</h2><div className={s.teachingRow}><div className={s.teachingLead}><p>Suppose a house is 8 years old.</p><p>The number 8 is a <strong>scalar</strong>. A scalar is simply a single numerical value.</p><p>It could describe a house’s age, its size or its price. Here, it represents just one detail about our house.</p></div><div className={s.teachingVisual}><div className={s.scalarMeaning}><span className={s.scalar}><mark>8</mark></span><span aria-hidden="true">→</span><span>One value describing the house’s age</span></div></div></div></section>
-      <section className={s.teachingSection} aria-labelledby="vector-heading"><h2 id="vector-heading">2. A vector: an ordered list of numbers</h2><div className={s.teachingRow}><div className={s.teachingLead}><p>To estimate the price, our model can use several details about the same house:</p><ul><li>Size: 1,200 sq ft</li><li>Bedrooms: 3</li><li>Age: 8 years</li></ul><p>We can arrange these numbers into a <strong>vector</strong>:</p></div><div className={s.teachingVisual}><Vector labeled/><p className={s.visualCaption}>[1200, 3, 8] <span aria-hidden="true">→</span> Several details describing one house</p></div><div className={s.teachingDetail}><p>A vector keeps the values together in a specific order. Here, the first position means size, the second means bedrooms, and the third means age.</p><p>The model can use these values together as information about one house.</p></div></div></section>
-      <section className={s.teachingSection} aria-labelledby="matrix-heading"><h2 id="matrix-heading">3. A matrix: numbers arranged in rows and columns</h2><div className={s.teachingRow}><div className={s.teachingLead}><p>Now suppose we have information about several houses:</p></div><div className={s.teachingVisual}><Matrix detailed/></div><div className={s.teachingDetail}><p>The numbers form a <strong>matrix</strong>: a rectangular arrangement of values in rows and columns.</p><p>Here, each row describes one house, and each column holds the same type of detail across houses.</p><p>Arranging the numbers this way gives an AI model a consistent format for working with information about many houses.</p></div></div></section>
+  return <div className={s.screenTwo}>
+    <section className={s.houseProfile} aria-label="House example">
+      <img className={s.profilePhoto} src={`${import.meta.env.BASE_URL}images/learn/house-dusk.png`} alt="A modern two-storey house with warm illuminated windows at dusk"/>
+      <div className={s.profileCopy}>
+        <p>Imagine building a model that estimates house prices. To make a prediction, it can use details such as:</p>
+        <ul className={s.profileDetails}>
+          <li><HouseDetailIcon name="size"/><span>Size: <strong>1,200 sq ft</strong></span></li>
+          <li><HouseDetailIcon name="bedrooms"/><span>Bedrooms: <strong>3</strong></span></li>
+          <li className={s.ageDetail}><HouseDetailIcon name="age"/><span>Age: <strong>8 years</strong></span></li>
+        </ul>
+        <p>Mathematics gives us ways to organize these numbers. Let’s start with a single value.</p>
+      </div>
+    </section>
+
+    <section className={`${s.teachingSection} ${s.scalarPanel}`} aria-labelledby="scalar-heading">
+      <div className={s.scalarCopy}>
+        <h2 id="scalar-heading">1. <mark>A scalar:</mark> one number</h2>
+        <p>Suppose a house is 8 years old.</p>
+        <p>The number 8 is a <strong>scalar</strong>. A scalar is simply a single numerical value.</p>
+        <p>It could describe a house’s age, its size or its price. Here, it represents just one detail about our house.</p>
+      </div>
+      <div className={s.scalarExample}><span>8</span><small>Age (years)</small></div>
+      <p className={s.scalarCaption}><span><strong>8</strong> <span aria-hidden="true">→</span> One value describing the house’s age</span></p>
+    </section>
+
+    <div className={s.teachingPair}>
+      <section className={`${s.teachingSection} ${s.pairedPanel}`} aria-labelledby="vector-heading">
+        <h2 id="vector-heading">2. <mark>A vector:</mark> an ordered list of numbers</h2>
+        <p>To estimate the price, our model can use several details about the same house:</p>
+        <ul><li>Size: 1,200 sq ft</li><li>Bedrooms: 3</li><li>Age: 8 years</li></ul>
+        <p>We can arrange these numbers into a <strong>vector</strong>:</p>
+        <Vector labeled/>
+        <p>A vector keeps the values together in a specific order. Here, the first position means size, the second means bedrooms, and the third means age.</p>
+        <p>The model can use these values together as information about one house.</p>
+        <p className={s.visualCaption}><strong>[1200, 3, 8]</strong> <span aria-hidden="true">→</span> Several details describing one house</p>
+      </section>
+      <section className={`${s.teachingSection} ${s.pairedPanel}`} aria-labelledby="matrix-heading">
+        <h2 id="matrix-heading">3. <mark>A matrix:</mark> numbers arranged in rows and columns</h2>
+        <p>Now suppose we have information about several houses:</p>
+        <div className={s.matrixScroll}><Matrix detailed/></div>
+        <p>The numbers form a <strong>matrix</strong>: a rectangular arrangement of values in rows and columns.</p>
+        <p>Here, each row describes one house, and each column holds the same type of detail across houses.</p>
+        <p>Arranging the numbers this way gives an AI model a consistent format for working with information about many houses.</p>
+      </section>
     </div>
-    <aside className={s.whyNote}><LineIcon name="intuition"/><div><h2>Why does this matter for AI?</h2><p>The model needs these details arranged consistently. If the first position represents size for one house, it should represent size for every house. Changing the order would mix up what the values represent.</p></div></aside>
-    <MentalModel><span className={s.mentalLead}>In our house example:</span><span className={s.mentalLine}>A <strong>scalar</strong> describes one detail.</span><span className={s.mentalLine}>A <strong>vector</strong> groups details about one house.</span><span className={s.mentalLine}>A <strong>matrix</strong> organizes details about many houses.</span></MentalModel>
-  </>;
+
+    <aside className={s.whyNote}><LineIcon name="brain"/><div><h2>Why does this matter for AI?</h2><p>The model needs these details arranged consistently. If the first position represents size for one house, it should represent size for every house. Changing the order would mix up what the values represent.</p></div></aside>
+    <MentalModel>Mathematics gives us ways to represent and organize data, turning individual details into a structure that AI models can work with.</MentalModel>
+  </div>;
 }
 
 function ScreenThree() {
-  return <>
-    <div className={s.readingIntro}><p>So far, we have seen how mathematics can help us organize information.<br/>But AI also needs to understand how different pieces of information are related.</p><p>Suppose we are looking at houses.<br/>A larger house may often have a higher price than a smaller one.<br/>That means there is some relationship between:<br/><em>House size → House price</em></p><p>Mathematics gives us a way to describe relationships like this.</p></div>
-    <div className={s.readingSections}>
-      <Numbered number={1} title="A relationship can be described as a function"><p>A function is simply a rule that takes something in and produces something out.<br/>For example:</p><Flow items={['House size', 'Rule', 'Estimated price']}/><p>We can think of this as:</p><Flow items={['Input', 'Function', 'Output']}/><p>This idea is important in AI because a model also receives information and produces an output.</p><p>For now, the important idea is simple:<br/><em>A function helps us describe how one thing is connected to another.</em></p></Numbered>
-      <Numbered number={2} title="When the input changes."><div className={s.changeGroup}><div><p>Suppose our rule gives:</p><div className={s.inlineExample}>1200 sq ft <Arrow/> ₹ 50L</div><p>Now the house size changes:</p><div className={s.inlineExample}><mark>1500 sq ft</mark><Arrow/><mark>₹ 60L</mark></div><p>The input changed. And the output changed with it.</p></div><FunctionVisual/></div><p>Mathematics helps us describe how much one quantity changes when another quantity changes.<br/>This idea of change becomes extremely important later when we learn how AI models improve.<br/>The branch of mathematics that studies change is called <em>calculus</em>.<br/>We do not need the formulas yet.<br/>For now, remember the idea:<br/><em>When something changes, mathematics can help us understand what happens next.</em></p></Numbered>
+  return <div className={s.screenThree}>
+    <div className={s.relationshipIntro}>
+      <p>So far, we have seen how mathematics can help us organize information. But AI also needs to understand how different pieces of information are related.</p>
+      <p>Suppose we are looking at houses. A larger house may often have a higher price than a smaller one. That means there is some relationship between:</p>
+      <p className={s.relationshipAccent}>House size <Arrow/> House price</p>
+      <p>Mathematics gives us a way to describe relationships like this.</p>
     </div>
-    <MentalModel>Mathematics helps us describe <mark>how things are related</mark> and <mark>how one thing changes when another changes.</mark></MentalModel>
-  </>;
+    <div className={s.relationshipPanels}>
+      <section className={s.relationshipPanel} aria-labelledby="function-heading">
+        <header><span aria-hidden="true">01</span><h2 id="function-heading">A relationship can be described as a <em>function</em></h2></header>
+        <p>Imagine a simple rule: “Double the number.”</p>
+        <p>Give it 3, and you get 6.</p>
+        <p>Give it 5, and you get 10.</p>
+        <p>The number you provide is the input. The answer you get is the output. The rule connecting them is called a function.</p>
+        <div className={s.doublingFlow} role="group" aria-label="Doubling function example">
+          <div className={s.relationshipStage}><span className={s.functionNumber}>3</span><small>Input</small></div>
+          <Arrow/>
+          <div className={s.relationshipStage}><span>Double it</span><small>Function</small></div>
+          <Arrow/>
+          <div className={s.relationshipStage}><span className={s.functionNumber}>6</span><small>Output</small></div>
+        </div>
+        <p>An AI model works with the same basic idea. For example:</p>
+        <div className={s.houseModelFlow} role="group" aria-label="House-price model example">
+          <span>Information about a house</span><Arrow/><span>Model</span><Arrow/><span>Estimated price</span>
+        </div>
+        <p>In our doubling example, we chose the rule ourselves. During training, an AI model learns how to connect inputs to useful outputs from examples.</p>
+      </section>
+      <section className={s.relationshipPanel} aria-labelledby="change-heading">
+        <header><span aria-hidden="true">02</span><h2 id="change-heading">What happens when the input <em>changes?</em></h2></header>
+        <p>Now consider a simple house-price model. Keeping the model unchanged, let’s compare two inputs:</p>
+        <p className={s.sameModel}>Same model</p>
+        <div className={s.priceComparison}>
+          <table>
+            <caption className="sr-only">Estimated prices from the same model. The final row shows the change between the two examples.</caption>
+            <thead><tr><th scope="col">House size</th><th scope="col">Estimated price</th></tr></thead>
+            <tbody><tr><td>1,200 sq ft</td><td>₹50 lakh</td></tr><tr><td>1,500 sq ft</td><td>₹60 lakh</td></tr></tbody>
+            <tfoot><tr><td>300 sq ft</td><td>+₹10 lakh</td></tr></tfoot>
+          </table>
+        </div>
+        <p>The house size increased by 300 sq ft, and the estimated price increased by ₹10 lakh.</p>
+        <p>This raises a useful question:</p>
+        <p className={s.relationshipAccent}>How much does the result change when we change the input?</p>
+        <p><strong>Calculus</strong> is a branch of mathematics that helps us study change, including how a small change in one quantity affects another.</p>
+        <p>Later, we’ll use this idea to understand how small adjustments to a model can help reduce its error.</p>
+        <p>We don’t need formulas yet. For now, remember:</p>
+        <p className={s.relationshipConclusion}>Calculus helps us understand how a small change can affect a result.</p>
+      </section>
+    </div>
+    <MentalModel>Mathematics helps us describe <mark>relationships</mark> and understand how a <mark>change</mark> in one quantity affects another.</MentalModel>
+  </div>;
 }
 
 function ScreenFour() {

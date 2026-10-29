@@ -6,15 +6,21 @@ export const lessonImage = (name: string) => `${import.meta.env.BASE_URL}images/
 export function Arrow() { return <span className={s.arrow} aria-hidden="true">→</span>; }
 
 export function Matrix({ compact = false, detailed = false }: { compact?: boolean; detailed?: boolean }) {
-  return <table className={`${s.matrix} ${compact ? s.compactMatrix : ''}`} aria-label="House examples: size, bedrooms and age">
-    <thead><tr><th scope="col">{detailed ? 'Size (sq ft)' : 'Size'}</th><th scope="col">Bedrooms</th><th scope="col">{detailed ? 'Age (years)' : 'Age'}</th></tr></thead>
-    <tbody>{[[1200, 3, 8], [900, 2, 4], [1500, 4, 6]].map((row, index) => <tr key={row[0]} className={index === 0 ? s.highlightRow : ''}>{row.map((value, col) => <td key={col}>{index === 0 && col === 2 ? <mark>{value}</mark> : value}</td>)}</tr>)}</tbody>
+  return <table className={`${s.matrix} ${detailed ? s.detailedMatrix : ''} ${compact ? s.compactMatrix : ''}`} aria-label="House examples: size, bedrooms and age">
+    <thead><tr>{detailed && <th scope="col">House</th>}<th scope="col">{detailed ? 'Size (sq ft)' : 'Size'}</th><th scope="col">Bedrooms</th><th scope="col">{detailed ? 'Age (years)' : 'Age'}</th></tr></thead>
+    <tbody>{[[1200, 3, 8], [900, 2, 4], [1500, 4, 6]].map((row, index) => <tr key={row[0]} className={index === 0 ? s.highlightRow : ''}>{detailed && <th scope="row">House {index + 1}</th>}{row.map((value, col) => <td key={col}>{index === 0 && col === 2 ? <mark>{value}</mark> : value}</td>)}</tr>)}</tbody>
   </table>;
 }
 
 export function Vector({ labeled = false }: { labeled?: boolean }) {
-  if (labeled) return <div className={s.labeledVector} role="img" aria-label="Vector: 1200, 3, 8. Size, Bedrooms, Age.">
-    <span aria-hidden="true">[</span><span>1200,<small>Size</small></span><span>3,<small>Bedrooms</small></span><mark>8<small>Age</small></mark><span aria-hidden="true">]</span>
+  if (labeled) return <div className={s.labeledVector} role="img" aria-label="Vector: 1200, 3, 8. Size in square feet, bedrooms, age in years.">
+    <span className={s.vectorBracket} aria-hidden="true">[</span>
+    <span className={s.vectorMeasure}><span className={s.vectorValue}>1200</span><small>Size <span>(sq ft)</span></small></span>
+    <span className={s.vectorComma} aria-hidden="true">,</span>
+    <span className={s.vectorMeasure}><span className={s.vectorValue}>3</span><small>Bedrooms</small></span>
+    <span className={s.vectorComma} aria-hidden="true">,</span>
+    <span className={`${s.vectorMeasure} ${s.vectorAge}`}><span className={s.vectorValue}>8</span><small>Age <span>(years)</span></small></span>
+    <span className={s.vectorBracket} aria-hidden="true">]</span>
   </div>;
   return <div className={s.vector} aria-label="Vector: 1200, 3, 8"><span aria-hidden="true">[</span><span>1200,</span><span>3,</span><mark>8</mark><span aria-hidden="true">]</span></div>;
 }

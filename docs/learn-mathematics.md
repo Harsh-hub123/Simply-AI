@@ -22,7 +22,7 @@ Screen 1 is the colour authority: near-black navy `#000c13`, panel fill `#01121d
 
 The screen content lives in `LearnPage.tsx`; diagrams live in `LessonVisuals.tsx`. Both use the scoped Learn stylesheet. No new package is required.
 
-Screen 2 teaches scalar, vector, and matrix in three full-width sections with natural heights. At desktop widths, explanation and visual share each row; below 1100px, each visual follows the sentence that introduces it. Screen 3 groups the small examples with Function and the unchanged-rule two-row diagram with Change. Screen 4 groups the supporting dog thumbnail, initial estimates and prediction mistake together, followed by a full-width probability comparison and its explanation. Screens 1 and 5 retain their layouts.
+Screen 2 follows the approved house profile, full-width scalar panel, paired vector and matrix panels, relevance note, and mental model. The paired panels stack when each cannot retain roughly 400px of usable width; the table may scroll inside its own container on narrow screens. Screen 3 groups the small examples with Function and the unchanged-rule two-row diagram with Change. Screen 4 groups the supporting dog thumbnail, initial estimates and prediction mistake together, followed by a full-width probability comparison and its explanation. Screens 1 and 5 retain their layouts.
 
 The approved order is:
 
