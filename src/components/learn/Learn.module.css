@@ -572,15 +572,17 @@
 .relationshipPanel h2 em { font: inherit; }
 .relationshipPanel > p:last-child { margin-bottom: 0; }
 .relationshipPanel strong { color: var(--learn-paper); font-weight: 650; }
+.doublingExamples { margin-bottom: 12px; }
+.screenThree .doublingExamples p { margin: 0; }
 .doublingFlow, .houseModelFlow { display: grid; grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1.25fr) 22px minmax(0, 1fr); gap: 8px; margin: 18px 0 22px; }
 .relationshipStage { display: flex; flex-direction: column; gap: 7px; min-width: 0; text-align: center; }
 .relationshipStage > span { display: grid; place-items: center; min-height: 54px; padding: 9px 10px; border: 1px solid var(--learn-cyan); border-radius: 7px; color: var(--learn-paper); background: var(--learn-raised); font: 400 16px/1.3 var(--sans); }
 .relationshipStage > .functionNumber { color: var(--learn-cyan); font-size: 29px; line-height: 1; font-weight: 600; }
 .relationshipStage small { color: var(--learn-copy); font: 400 15px/1.3 var(--sans); }
 .doublingFlow > .arrow { align-self: start; margin-top: 15px; font-size: 24px; text-align: center; }
-.houseModelFlow { align-items: center; }
+.houseModelFlow { align-items: stretch; }
 .houseModelFlow > span:not(.arrow) { display: grid; place-items: center; min-height: 52px; padding: 9px 8px; border: 1px solid rgba(20, 151, 183, .4); border-radius: 7px; background: rgba(3, 26, 39, .35); color: var(--learn-paper); text-align: center; font: 400 16px/1.35 var(--sans); }
-.houseModelFlow > .arrow { font-size: 24px; text-align: center; }
+.houseModelFlow > .arrow { align-self: center; font-size: 24px; text-align: center; }
 .screenThree .sameModel { margin: 6px 0; color: var(--learn-paper); text-align: center; font-size: 14px; }
 .priceComparison { margin-bottom: 13px; border: 1px solid var(--learn-cyan); border-radius: 8px; overflow: hidden; }
 .priceComparison table { width: 100%; border-collapse: collapse; table-layout: fixed; color: var(--learn-paper); font: 400 17px/1.4 var(--sans); text-align: center; }
@@ -610,4 +612,60 @@
   .priceComparison th, .priceComparison td { padding: 8px 6px; }
   .screenThree .mentalModel > svg { width: 32px; }
   .screenThree .mentalModel p { font-size: 16px; }
+}
+
+/* Screen 4: illustrative estimates and uncertainty comparisons. */
+.screenFour { min-width: 0; }
+.screenFour p, .screenFour li { font: 400 17px/1.55 var(--sans); }
+.screenFour p { margin: 0 0 12px; }
+.uncertaintyIntro { max-width: 100ch; }
+.screenFour .uncertaintyPremise { color: var(--learn-gold); font-weight: 650; }
+.screenFour .uncertaintyLabel { margin: 24px 0 11px; color: var(--learn-cyan); font: 600 14px/1.4 var(--sans); letter-spacing: .09em; text-transform: uppercase; }
+.uncertaintyPanels { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr)); gap: 16px; align-items: start; }
+.uncertaintyPanel { min-width: 0; padding: 20px; border: 1px solid var(--learn-border); border-radius: 9px; background: var(--learn-panel); }
+.uncertaintyPanel > header { display: flex; align-items: baseline; gap: 18px; margin-bottom: 17px; }
+.uncertaintyPanel > header > span { flex: 0 0 auto; color: var(--learn-cyan); font: 600 21px/1.3 var(--sans); }
+.uncertaintyPanel h2 { margin: 0; color: var(--learn-paper); font: 600 27px/1.18 var(--display); }
+.uncertaintyPanel > p:last-child { margin-bottom: 0; }
+.screenFour .initialEstimates { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px; margin: 14px 0 16px; }
+.dogPortrait { flex: 0 0 132px; width: 132px; aspect-ratio: 22 / 25; overflow: hidden; border-radius: 6px; background: var(--learn-raised); }
+.dogPortrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; transform: scale(2.65); transform-origin: 50% 35%; }
+.estimateChart { flex: 1 1 210px; min-width: 0; }
+.screenFour .bars { font-size: 16px; }
+.screenFour .bars > div { grid-template-columns: 35px minmax(0, 1fr); }
+.screenFour .bars dd { grid-template-columns: minmax(0, 1fr) 44px; }
+.screenFour .track { height: 13px; }
+.screenFour .track > span { min-width: 0; }
+.initialEstimates .bars > div { grid-template-columns: 1fr; gap: 3px; margin-top: 0; margin-bottom: 8px; }
+.screenFour .estimatesCaption { margin: 9px 0 0; font-size: 13px; line-height: 1.4; color: #b4c6d1; }
+.screenFour .predictedActual { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 8px 12px; margin-bottom: 16px; border: 1px solid var(--learn-border); border-radius: 6px; color: var(--learn-paper); font-size: 16px; }
+.predictedActual strong { color: var(--learn-cyan); font-weight: 600; }
+.predictedActual > span:last-child strong { color: var(--learn-gold); }
+.screenFour .uncertaintyEmphasis { color: var(--learn-cyan); font-weight: 600; }
+.probabilityCases { display: grid; gap: 14px; margin: 14px 0 20px; }
+.uncertaintyCase { min-width: 0; padding: 14px; border: 1px solid var(--learn-border); border-radius: 7px; background: rgba(3, 26, 39, .3); }
+.uncertaintyCase h3 { margin: 0 0 13px; color: var(--learn-paper); font: 600 16px/1.45 var(--sans); }
+.screenFour .uncertaintyCase p { margin: 13px 0 0; font-size: 16px; }
+.uncertaintyInsights { margin-top: 14px; padding: 0 18px; border: 1px solid var(--learn-border); border-radius: 9px; background: var(--learn-panel); }
+.uncertaintyInsight { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 20px; align-items: start; padding: 18px 0; }
+.uncertaintyInsight + .uncertaintyInsight { border-top: 1px solid var(--learn-border); }
+.uncertaintyInsight > svg { width: 34px; height: 36px; color: var(--learn-cyan); }
+.uncertaintyInsight h2 { margin: 0 0 6px; color: var(--learn-cyan); font: 600 18px/1.4 var(--sans); }
+.uncertaintyInsight:first-child h2 { font-size: 14px; letter-spacing: .07em; text-transform: uppercase; }
+.uncertaintyInsight p { margin-bottom: 7px; }
+.uncertaintyInsight p:last-child { margin-bottom: 0; }
+.screenFour .mentalModel { margin-top: 14px; }
+.screenFour .mentalModel > svg { width: 38px; }
+.screenFour .mentalModel p { margin: 4px 0 0; color: var(--learn-paper); font: 400 17px/1.5 var(--sans); }
+.uncertaintyTakeaway { color: var(--learn-gold); font-weight: 600; }
+@media (max-width: 600px) {
+  .screenFour p, .screenFour li { font-size: 16px; }
+  .uncertaintyPanel { padding: 16px; }
+  .uncertaintyPanel > header { gap: 12px; }
+  .uncertaintyPanel h2 { font-size: 25px; }
+  .uncertaintyInsights { padding-inline: 14px; }
+  .uncertaintyInsight { grid-template-columns: 32px minmax(0, 1fr); gap: 14px; padding-block: 16px; }
+  .uncertaintyInsight > svg { width: 32px; height: 34px; }
+  .screenFour .mentalModel > svg { width: 32px; }
+  .screenFour .mentalModel p { font-size: 16px; }
 }

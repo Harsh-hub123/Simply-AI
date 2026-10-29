@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { roadmapConcepts } from '../data/roadmapConcepts';
 import { LineIcon } from '../components/Icons';
-import { Arrow, Bars, BigPicture, InformationVisual, lessonImage, Matrix, PredictionVisual, Vector } from '../components/learn/LessonVisuals';
+import { Arrow, Bars, BigPicture, InformationVisual, lessonImage, Matrix, Vector } from '../components/learn/LessonVisuals';
 import s from '../components/learn/Learn.module.css';
 
 const titles = [<>Why does AI need <mark>mathematics</mark>?</>, <>How do we <mark>organize information</mark> for an AI model?</>, <>Understanding <mark>relationships and change</mark></>, <>A prediction is <mark>not the truth.</mark></>, <>The <mark>big picture.</mark></>];
@@ -16,10 +16,6 @@ const nextCopy = [
 
 function MentalModel({ children, final = false }: { children: React.ReactNode; final?: boolean }) {
   return <aside className={s.mentalModel}><LineIcon name={final ? 'intuition' : 'brain'}/><div><b>{final ? 'Key takeaway' : 'Mental model'}</b><p>{children}</p></div></aside>;
-}
-
-function Numbered({ number, title, children }: { number: number; title: string; children: React.ReactNode }) {
-  return <section className={s.numbered}><span className={s.sectionNumber} aria-hidden="true">{number}</span><div><h2>{title}</h2>{children}</div></section>;
 }
 
 function ScreenOne() {
@@ -113,8 +109,10 @@ function ScreenThree() {
       <section className={s.relationshipPanel} aria-labelledby="function-heading">
         <header><span aria-hidden="true">01</span><h2 id="function-heading">A relationship can be described as a <em>function</em></h2></header>
         <p>Imagine a simple rule: “Double the number.”</p>
-        <p>Give it 3, and you get 6.</p>
-        <p>Give it 5, and you get 10.</p>
+        <div className={s.doublingExamples}>
+          <p>Give it 3, and you get 6.</p>
+          <p>Give it 5, and you get 10.</p>
+        </div>
         <p>The number you provide is the input. The answer you get is the output. The rule connecting them is called a function.</p>
         <div className={s.doublingFlow} role="group" aria-label="Doubling function example">
           <div className={s.relationshipStage}><span className={s.functionNumber}>3</span><small>Input</small></div>
@@ -138,7 +136,7 @@ function ScreenThree() {
             <caption className="sr-only">Estimated prices from the same model. The final row shows the change between the two examples.</caption>
             <thead><tr><th scope="col">House size</th><th scope="col">Estimated price</th></tr></thead>
             <tbody><tr><td>1,200 sq ft</td><td>₹50 lakh</td></tr><tr><td>1,500 sq ft</td><td>₹60 lakh</td></tr></tbody>
-            <tfoot><tr><td>300 sq ft</td><td>+₹10 lakh</td></tr></tfoot>
+            <tfoot><tr><td>+300 sq ft</td><td>+₹10 lakh</td></tr></tfoot>
           </table>
         </div>
         <p>The house size increased by 300 sq ft, and the estimated price increased by ₹10 lakh.</p>
@@ -155,15 +153,61 @@ function ScreenThree() {
 }
 
 function ScreenFour() {
-  return <>
-    <div className={s.readingIntro}><p>So far, we have seen how mathematics helps us:</p><ul><li>organize information</li><li>describe relationships</li><li>understand change</li></ul><p>But there is one more idea that matters deeply in AI:<br/><strong className={s.goldText}>A model does not know the correct answer in advance.</strong><br/>When it sees something new, it uses what it has learned to estimate what the answer is most likely to be. That estimate is a prediction.<br/>Sometimes the prediction is right. Sometimes it is wrong.</p></div>
-    <div className={s.readingSections}>
-      <Numbered number={1} title="The most likely prediction can still be wrong."><div className={s.predictionGroup}><PredictionVisual/><div><div className={s.predictionComparison}><div><p>Predicted: <em>Cat</em> — 58%</p><p>Actual: <em>Dog</em></p></div><strong>Prediction ≠<br/>Correct answer</strong></div><p>The model’s best guess was Cat.<br/>But its best guess was still wrong.<br/>A model does not produce truth. It produces a prediction based on the information available to it and what it has learned.</p></div></div></Numbered>
-      <Numbered number={2} title="This is where probability becomes useful."><p>Probability helps us describe uncertainty by showing how likely different outcomes appear to be.</p><div className={s.cases}><div><b>Case A</b><Bars values={[["Cat", 99], ["Dog", 1]]}/></div><div><b>Case B</b><Bars values={[["Cat", 51], ["Dog", 49]]}/></div></div><p>Both cases would lead to the prediction Cat.<br/>But they are clearly not telling us the same thing.<br/><strong className={s.goldText}>The prediction is the same. The uncertainty is not.</strong><br/>That is why probability matters.</p></Numbered>
-      <Numbered number={3} title="Why does this matter in AI?"><p>Real-world information can be incomplete, noisy, ambiguous or unfamiliar. So AI systems often have to make predictions without perfect information.<br/><strong className={s.goldText}>Probability gives us a mathematical language for uncertainty.</strong> A high probability does not guarantee that a prediction is correct.</p></Numbered>
+  return <div className={s.screenFour}>
+    <div className={s.uncertaintyIntro}>
+      <p>So far, we have seen how mathematics helps us:</p>
+      <ul><li>organize information</li><li>describe relationships</li><li>understand change</li></ul>
+      <p>But there is one more idea that matters deeply in AI:</p>
+      <p className={s.uncertaintyPremise}>A model does not know the correct answer in advance.</p>
+      <p>When it sees something new, it uses what it has learned to estimate what the answer is most likely to be. That estimate is a prediction.</p>
+      <p>Sometimes the prediction is right. Sometimes it is wrong.</p>
     </div>
-    <MentalModel><strong className={s.goldText}>AI makes predictions, not guarantees.</strong><span className={s.mentalSupporting}>Probability helps us describe how strongly different outcomes are supported when we are uncertain.</span></MentalModel>
-  </>;
+    <p className={s.uncertaintyLabel}>Uncertainty and probability</p>
+    <div className={s.uncertaintyPanels}>
+      <section className={s.uncertaintyPanel} aria-labelledby="best-guess-heading">
+        <header><span aria-hidden="true">01</span><h2 id="best-guess-heading">A model’s best guess can still be wrong</h2></header>
+        <p>The model’s estimated probabilities are:</p>
+        <figure className={s.initialEstimates} aria-label="Illustrative estimates for a photograph showing a dog: Cat 58%, Dog 37%, Fox 5%.">
+          <div className={s.dogPortrait}><img src={lessonImage('dog')} alt="A golden retriever’s face. The actual animal is a dog."/></div>
+          <div className={s.estimateChart}><Bars/><p className={s.estimatesCaption}>Illustrative model estimates</p></div>
+        </figure>
+        <p className={s.predictedActual}><span>Predicted: <strong>Cat</strong></span><span aria-hidden="true"> · </span><span>Actual: <strong>Dog</strong></span></p>
+        <p>Cat has the highest percentage, so the model predicts Cat. But the image shows a Dog.</p>
+        <p>The model chose the answer it considered most likely and still made a mistake.</p>
+        <p className={s.uncertaintyEmphasis}>“Most likely” does not mean “definitely correct.”</p>
+        <p>But how strongly does a model favor its chosen answer? Let’s compare two examples.</p>
+      </section>
+      <section className={s.uncertaintyPanel} aria-labelledby="different-uncertainty-heading">
+        <header><span aria-hidden="true">02</span><h2 id="different-uncertainty-heading">The same prediction can carry different uncertainty</h2></header>
+        <p>Imagine a model choosing between Cat and Dog:</p>
+        <div className={s.probabilityCases}>
+          <section className={s.uncertaintyCase} aria-labelledby="case-a-heading">
+            <h3 id="case-a-heading">Case A — Cat: 99% · Dog: 1%</h3>
+            <Bars values={[["Cat", 99], ["Dog", 1]]}/>
+            <p>The model strongly favors Cat.</p>
+          </section>
+          <section className={s.uncertaintyCase} aria-labelledby="case-b-heading">
+            <h3 id="case-b-heading">Case B — Cat: 51% · Dog: 49%</h3>
+            <Bars values={[["Cat", 51], ["Dog", 49]]}/>
+            <p>The model is almost evenly split.</p>
+          </section>
+        </div>
+        <p>Both cases produce the prediction Cat, but the probabilities show a very different level of uncertainty.</p>
+        <p>The answer alone doesn’t tell us how strongly the model favors it.</p>
+      </section>
+    </div>
+    <section className={s.uncertaintyInsights} aria-label="Probability and AI">
+      <section className={s.uncertaintyInsight} aria-labelledby="probability-core-heading">
+        <LineIcon name="intuition"/>
+        <div><h2 id="probability-core-heading">Core Idea</h2><p>Probability gives us a way to describe and reason about uncertainty. It helps us look beyond the model’s final answer and understand how strongly it favors different possibilities.</p></div>
+      </section>
+      <section className={s.uncertaintyInsight} aria-labelledby="probability-relevance-heading">
+        <LineIcon name="brain"/>
+        <div><h2 id="probability-relevance-heading">Why does this matter in AI?</h2><p>AI often makes predictions from incomplete or unclear information.</p><p>Probability helps us describe the uncertainty in those predictions.</p><p>We’ll explore this step by step as we learn how AI models work.</p></div>
+      </section>
+    </section>
+    <MentalModel><strong className={s.uncertaintyTakeaway}>A prediction is an estimate, not a guarantee.</strong> Probability gives us a way to express uncertainty in numbers and compare how likely different outcomes are.</MentalModel>
+  </div>;
 }
 
 function ScreenFive() {
