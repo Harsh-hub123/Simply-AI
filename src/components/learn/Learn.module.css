@@ -559,22 +559,26 @@
 }
 
 /* Screen 3: Function and Change share a row only with sufficient reading width. */
-.screenThree { min-width: 0; }
-.screenThree p { margin: 0 0 12px; font: 400 17px/1.55 var(--sans); }
-.relationshipIntro { max-width: 100ch; margin-bottom: 20px; }
+.screenThree { min-width: 0; container: mathematicsRelationships / inline-size; }
+.screenThree p { margin: 0 0 10px; font: 400 17px/1.6 var(--sans); }
+.relationshipIntro { max-width: 100ch; margin-bottom: 16px; }
+.relationshipIntro p { margin-bottom: 8px; }
+.relationshipIntro p:last-child { margin-bottom: 0; }
+.screenThree .relationshipIntro .relationshipAccent { font-size: 18px; }
 .screenThree .relationshipAccent { color: var(--learn-cyan); font-weight: 600; }
 .relationshipAccent .arrow { font-size: 23px; vertical-align: middle; }
-.relationshipPanels { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr)); gap: 16px; align-items: stretch; }
+.relationshipPanels { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; align-items: stretch; }
 .relationshipPanel { min-width: 0; padding: 20px; border: 1px solid var(--learn-border); border-radius: 9px; background: var(--learn-panel); }
-.relationshipPanel > header { display: flex; align-items: baseline; gap: 18px; margin-bottom: 17px; }
+.relationshipPanel > header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 14px; }
 .relationshipPanel > header > span { flex: 0 0 auto; color: var(--learn-cyan); font: 600 21px/1.3 var(--sans); }
 .relationshipPanel h2 { margin: 0; color: var(--learn-paper); font: 600 27px/1.18 var(--display); }
 .relationshipPanel h2 em { font: inherit; }
 .relationshipPanel > p:last-child { margin-bottom: 0; }
 .relationshipPanel strong { color: var(--learn-paper); font-weight: 650; }
-.doublingExamples { margin-bottom: 12px; }
+.doublingExamples { margin-bottom: 10px; }
 .screenThree .doublingExamples p { margin: 0; }
-.doublingFlow, .houseModelFlow { display: grid; grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1.25fr) 22px minmax(0, 1fr); gap: 8px; margin: 18px 0 22px; }
+.doublingFlow, .houseModelFlow { display: grid; grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1.25fr) 22px minmax(0, 1fr); gap: 8px; margin: 14px 0 16px; }
+.doublingFlow { max-width: 430px; margin-inline: auto; }
 .relationshipStage { display: flex; flex-direction: column; gap: 7px; min-width: 0; text-align: center; }
 .relationshipStage > span { display: grid; place-items: center; min-height: 54px; padding: 9px 10px; border: 1px solid var(--learn-cyan); border-radius: 7px; color: var(--learn-paper); background: var(--learn-raised); font: 400 16px/1.3 var(--sans); }
 .relationshipStage > .functionNumber { color: var(--learn-cyan); font-size: 29px; line-height: 1; font-weight: 600; }
@@ -583,22 +587,26 @@
 .houseModelFlow { align-items: stretch; }
 .houseModelFlow > span:not(.arrow) { display: grid; place-items: center; min-height: 52px; padding: 9px 8px; border: 1px solid rgba(20, 151, 183, .4); border-radius: 7px; background: rgba(3, 26, 39, .35); color: var(--learn-paper); text-align: center; font: 400 16px/1.35 var(--sans); }
 .houseModelFlow > .arrow { align-self: center; font-size: 24px; text-align: center; }
-.screenThree .sameModel { margin: 4px 0; color: var(--learn-paper); text-align: center; font-size: 14px; }
+.screenThree .sameModel { display: table; margin: 4px auto 6px; padding: 3px 12px; border: 1px solid var(--learn-border); border-radius: 6px; background: var(--learn-raised); color: var(--learn-paper); text-align: center; font-size: 14px; }
 .priceComparison { margin-bottom: 10px; border: 1px solid var(--learn-cyan); border-radius: 8px; overflow: hidden; }
 .priceComparison table { width: 100%; border-collapse: collapse; table-layout: fixed; color: var(--learn-paper); font: 400 17px/1.4 var(--sans); text-align: center; }
-.priceComparison th, .priceComparison td { padding: 8px 10px; }
+.priceComparison th, .priceComparison td { padding: 7px 10px; }
 .priceComparison th { font-size: 16px; font-weight: 500; }
 .priceComparison tr > * + * { border-left: 1px solid var(--learn-border); }
 .priceComparison tbody tr > *, .priceComparison tfoot tr > * { border-top: 1px solid var(--learn-border); }
 .priceComparison tbody tr:nth-child(2) { background: rgba(0, 155, 189, .12); color: var(--learn-cyan); }
 .priceComparison tfoot { color: var(--learn-cyan); font-weight: 600; }
 .screenThree .relationshipConclusion { color: var(--learn-paper); font-weight: 600; }
-.screenThree .mentalModel { margin-top: 16px; }
+.screenThree .mentalModel { margin-top: 12px; }
 .screenThree .mentalModel > svg { width: 38px; }
-.screenThree .mentalModel p { margin-top: 4px; color: var(--learn-paper); font: 400 17px/1.5 var(--sans); }
+.screenThree .mentalModel p { margin-top: 4px; color: var(--learn-paper); font: 400 17px/1.55 var(--sans); }
 .screenThree .mentalModel mark { font-weight: 600; }
 .lesson[data-step="3"] .nextThought p { color: var(--learn-paper); }
 .lesson[data-step="3"] .nextThought .nextQuestion { color: var(--learn-cyan); font-weight: 650; }
+.lesson[data-step="3"] .lessonFooter { margin-top: 16px; padding-top: 16px; }
+@container mathematicsRelationships (min-width: 960px) {
+  .relationshipPanels { grid-template-columns: minmax(0, .43fr) minmax(0, .57fr); }
+}
 @media (max-width: 600px) {
   .screenThree p { font-size: 16px; }
   .relationshipPanel { padding: 16px; }
@@ -609,7 +617,7 @@
   .houseModelFlow { grid-template-columns: 1fr; justify-items: center; gap: 8px; }
   .houseModelFlow > span:not(.arrow) { width: min(100%, 260px); }
   .houseModelFlow > .arrow { transform: rotate(90deg); }
-  .priceComparison th, .priceComparison td { padding: 8px 6px; }
+  .priceComparison th, .priceComparison td { padding: 7px 6px; }
   .screenThree .mentalModel > svg { width: 32px; }
   .screenThree .mentalModel p { font-size: 16px; }
 }
